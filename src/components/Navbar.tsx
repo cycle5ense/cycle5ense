@@ -20,11 +20,20 @@ const NavBar: React.FC = () => {
           <Nav className="me-auto justify-content-start">
             {currentUser && (
               <>
-                <Nav.Link id="add-stuff-nav" href="/add" active={pathName === '/add'}>
-                  Add Stuff
+                <Nav.Link id="announcements" href="/announcements" active={pathName === '/announcements'}>
+                  Bottles4College Announcements
                 </Nav.Link>
-                <Nav.Link id="list-stuff-nav" href="/list" active={pathName === '/list'}>
-                  List Stuff
+                <Nav.Link id="map" href="/map" active={pathName === '/map'}>
+                  Manoa Bin Map
+                </Nav.Link>
+                <Nav.Link id="find-bin" href="/find-bin" active={pathName === '/find-bin'}>
+                  Recycle Bin Finder
+                </Nav.Link>
+                <Nav.Link id="sorting-guide" href="/sorting-guide" active={pathName === '/sorting-guide'}>
+                  Sorting Guide
+                </Nav.Link>
+                <Nav.Link id="recycle-statistics" href="/recycle-statistics" active={pathName === '/recycle-statistics'}>
+                  Recycling Impact Statistics
                 </Nav.Link>
               </>
             )}
