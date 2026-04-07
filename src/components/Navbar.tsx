@@ -18,7 +18,7 @@ const NavBar: React.FC = () => {
     <Navbar bg="light" expand="lg" className="border-bottom py-2">
       <Container>
         <Navbar.Brand href="/" className="fw-normal me-4">
-          Next.js Application Template
+          CycleSense
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -84,7 +84,7 @@ const NavBar: React.FC = () => {
 
           <Nav className="align-items-lg-center">
             {session ? (
-              <NavDropdown id="login-dropdown" title={currentUser}>
+              <NavDropdown id="login-dropdown" title={currentUser ?? 'Account'}>
                 <NavDropdown.Item id="login-dropdown-sign-out" href="/api/auth/signout">
                   <BoxArrowRight className="me-2" />
                   Sign Out
