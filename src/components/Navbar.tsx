@@ -15,62 +15,95 @@ const NavBar: React.FC = () => {
   const role = session?.user?.role;
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="border-bottom py-2">
       <Container>
-        <Navbar.Brand href="/">CycleSense</Navbar.Brand>
+        <Navbar.Brand href="/" className="fw-normal me-4">
+          CycleSense
+        </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* LEFT SIDE LINKS (ALWAYS VISIBLE) */}
-          <Nav className="me-auto">
-
-            <Nav.Link href="/announcements" active={pathName === '/announcements'}>
+          <Nav className="me-auto align-items-lg-center">
+            <Nav.Link
+              id="announcements"
+              href="/announcements"
+              active={pathName === '/announcements'}
+              className="mx-lg-2"
+            >
               Bottles4College Announcements
             </Nav.Link>
 
-            <Nav.Link href="/map" active={pathName === '/map'}>
+            <Nav.Link
+              id="map"
+              href="/map"
+              active={pathName === '/map'}
+              className="mx-lg-2"
+            >
               Manoa Bin Map
             </Nav.Link>
 
-            <Nav.Link href="/find-bin" active={pathName === '/find-bin'}>
+            <Nav.Link
+              id="find-bin"
+              href="/find-bin"
+              active={pathName === '/find-bin'}
+              className="mx-lg-2"
+            >
               Recycle Bin Finder
             </Nav.Link>
 
-            <Nav.Link href="/sorting-guide" active={pathName === '/sorting-guide'}>
+            <Nav.Link
+              id="sorting-guide"
+              href="/sorting-guide"
+              active={pathName === '/sorting-guide'}
+              className="mx-lg-2"
+            >
               Sorting Guide
             </Nav.Link>
 
-            <Nav.Link href="/recycle-statistics" active={pathName === '/recycle-statistics'}>
+            <Nav.Link
+              id="recycle-statistics"
+              href="/recycle-statistics"
+              active={pathName === '/recycle-statistics'}
+              className="mx-lg-2"
+            >
               Recycling Impact Statistics
             </Nav.Link>
 
             {role === 'ADMIN' && (
-              <Nav.Link href="/admin" active={pathName === '/admin'}>
+              <Nav.Link
+                id="admin-stuff-nav"
+                href="/admin"
+                active={pathName === '/admin'}
+                className="mx-lg-2"
+              >
                 Admin
               </Nav.Link>
             )}
-
+            
           </Nav>
 
-          {/* RIGHT SIDE LOGIN */}
-          <Nav>
+          <Nav className="align-items-lg-center">
             {session ? (
-              <NavDropdown title={currentUser ?? 'Account'}>
-                <NavDropdown.Item href="/api/auth/signout">
-                  <BoxArrowRight /> Sign Out
+              <NavDropdown id="login-dropdown" title={currentUser ?? 'Account'}>
+                <NavDropdown.Item id="login-dropdown-sign-out" href="/api/auth/signout">
+                  <BoxArrowRight className="me-2" />
+                  Sign Out
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/auth/change-password">
-                  <Lock /> Change Password
+                <NavDropdown.Item id="login-dropdown-change-password" href="/auth/change-password">
+                  <Lock className="me-2" />
+                  Change Password
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (
-              <NavDropdown title="Login">
-                <NavDropdown.Item href="/auth/signin">
-                  <PersonFill /> Sign in
+              <NavDropdown id="login-dropdown" title="Login">
+                <NavDropdown.Item id="login-dropdown-sign-in" href="/auth/signin">
+                  <PersonFill className="me-2" />
+                  Sign in
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/auth/signup">
-                  <PersonPlusFill /> Sign up
+                <NavDropdown.Item id="login-dropdown-sign-up" href="/auth/signup">
+                  <PersonPlusFill className="me-2" />
+                  Sign up
                 </NavDropdown.Item>
               </NavDropdown>
             )}
