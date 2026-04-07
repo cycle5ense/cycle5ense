@@ -12,7 +12,7 @@ const MapPage = () => {
       </p>
 
       <Image
-        src="/img/map-placeholder.jpeg"
+        src="/img/map-placeholder.png"
         alt="UH Mānoa campus map"
         width={1200}
         height={800}
