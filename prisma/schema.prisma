@@ -38,3 +38,59 @@ model Stuff {
   condition Condition @default(good)
   owner     String
 }
+
+enum Building {
+  Outside
+  Campus-Center
+  Art-Building
+  Holmes-Hall
+  Krauss-Hall
+  POST
+  Marine-Science-Building
+  University-Health-Services
+  Kennedy-Theatre
+  Keller-Hall
+  Watanabe-Hall
+  Hawaii-Institute-Geophysics
+  Physical-Science-Building
+  Information-Technology-Center
+  Bilger-Hall
+  Bilger-Addition
+  Sakamaki-Hall
+  Kuykendall-Hall
+  Kuykendall-Annex
+  Building-37
+  Miller-Hall
+  Warrior-Recreation-Center
+  Admin-Services-Building-1
+  Admin-Services-Building-2
+  Hemmenway-Hall
+  Bachman-Hall
+  Dean-Hall
+  Gartley-Hall
+  Future-Student-Success-Center
+  Architecture-Building
+  Andrews-Outdoor-Theatre
+  Hawaii-Hall
+  Life-Sciences-Building
+  Moore-Hall
+  Paradise-Palms
+  Hamilton-Library
+  Hamilton-Library-Addition
+  Edmondson-Hall
+  Spalding-Hall
+  Webster-Hall
+  Queen-Liliuokalani-Center-for-Student-Services
+  Saunders-Hall
+  Crawford-Hall
+  Business-Administration-Building
+  George-Hall
+}
+
+// floor is 1 if the bin is located outdoors
+model Pin {
+  id        Int       @id @default(autoincrement())
+  location  Building  @default(Outside)
+  floor     Int
+}
+
