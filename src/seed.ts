@@ -1,7 +1,17 @@
-import { prisma } from './lib/prisma';
-import { Role, Condition } from '@prisma/client';
+import 'dotenv/config';
+import { PrismaClient, Role, Condition } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json';
+
+const connectionString = 
+  process.env.POSTGRES_URL
+  if (!connectionString) {
+    throw new Error('No database connection string provided in environment variables.');
+  }
+
+const adapter = new PrismaPg({connectionString});
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Seeding the database');
