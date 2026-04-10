@@ -89,8 +89,9 @@ enum Building {
 
 // floor is 1 if the bin is located outdoors
 model Pin {
-  id        Int       @id @default(autoincrement())
-  location  Building  @default(Outside)
-  floor     Int
+  id          Int       @id @default(autoincrement())
+  location    Building  @default(Outside)
+  floor       Int
+  description String
 }
 
