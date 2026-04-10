@@ -6,34 +6,31 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
-import { addContact } from '@/lib/dbActions';
+import { addPin } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddContactSchema } from '@/lib/validationSchemas';
+import { AddPinSchema } from '@/lib/validationSchemas';
+import { Building } from '@prisma/client';
 
 const onSubmit = async (data: {
-  firstName: string,
-  lastName: string,
-  address: string,
-  image: string,
-  description: string,
-  owner: string }) => {
+  location: Building,
+  floor: number,
+  description: string, }) => {
   // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
-  await addContact(data);
-  swal('Success', 'Your contact has been added', 'success', {
+  await addPin(data);
+  swal('Success', 'Your pin has been added', 'success', {
     timer: 2000,
   });
 };
 
-const AddContactForm: React.FC = () => {
-  const { data: session, status } = useSession();
-  const currentUser = session?.user?.email || '';
+const AddPinForm: React.FC = () => {
+  const { status } = useSession();
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(AddContactSchema),
+    resolver: yupResolver(AddPinSchema),
   });
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -47,7 +44,7 @@ const AddContactForm: React.FC = () => {
       <Row className="justify-content-center">
         <Col xs={10}>
           <Col className="text-center">
-            <h2>Add Contact</h2>
+            <h2>Add Pin</h2>
           </Col>
           <Card>
             <Card.Body>
@@ -55,49 +52,67 @@ const AddContactForm: React.FC = () => {
                 <Row>
                   <Col>
                   <Form.Group>
-                    <Form.Label>First Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('firstName')}
-                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.firstName?.message}</div>
+                    <Form.Label>Location</Form.Label>
+                    <select {...register('location')} className={`form-control ${errors.location ? 'is-invalid' : ''}`}>
+                      <option value="Outside">Outside</option>
+                      <option value="CampusCenter">Campus Center</option>
+                      <option value="ArtBuilding">Art Building</option>
+                      <option value="HolmesHall">Holmes Hall</option>
+                      <option value="KraussHall">Krauss Hall</option>
+                      <option value="POST">POST</option>
+                      <option value="MarineScienceBuilding">Marine Science Building</option>
+                      <option value="UniversityHealthServices">University Health Services</option>
+                      <option value="KennedyTheatre">Kennedy Theatre</option>
+                      <option value="KellerHall">Keller Hall</option>
+                      <option value="WatanabeHall">Watanabe Hall</option>
+                      <option value="HawaiiInstituteGeophysics">Hawaii Institute of Geophysics</option>
+                      <option value="PhysicalScienceBuilding">Physical Science Building</option>
+                      <option value="InformationTechnologyCenter">Information Technology Center</option>
+                      <option value="BilgerHall">Bilger Hall</option>
+                      <option value="BilgerAddition">Bilger Addition</option>
+                      <option value="SakamakiHall">Sakamaki Hall</option>
+                      <option value="KuykendallHall">Kuykendall Hall</option>
+                      <option value="KuykendallAnnex">Kuykendall Annex</option>
+                      <option value="Building37">Building 37</option>
+                      <option value="MillerHall">Miller Hall</option>
+                      <option value="WarriorRecreationCenter">Warrior Recreation Center</option>
+                      <option value="AdminServicesBuilding1">Admin Services Building 1</option>
+                      <option value="AdminServicesBuilding2">Admin Services Building 2</option>
+                      <option value="HemmenwayHall">Hemmenway Hall</option>
+                      <option value="BachmanHall">Bachman Hall</option>
+                      <option value="DeanHall">Dean Hall</option>
+                      <option value="GartleyHall">Gartley Hall</option>
+                      <option value="FutureStudentSuccessCenter">Future Student Success Center</option>
+                      <option value="ArchitectureBuilding">Architecture Building</option>
+                      <option value="AndrewsOutdoorTheatre">Andrews Outdoor Theatre</option>
+                      <option value="HawaiiHall">Hawaii Hall</option>
+                      <option value="LifeSciencesBuilding">Life Sciences Building</option>
+                      <option value="MooreHall">Moore Hall</option>
+                      <option value="ParadisePalms">Paradise Palms</option>
+                      <option value="HamiltonLibrary">Hamilton Library</option>
+                      <option value="HamiltonLibraryAddition">Hamilton Library Addition</option>
+                      <option value="EdmondsonHall">Edmondson Hall</option>
+                      <option value="SpaldingHall">Spalding Hall</option>
+                      <option value="WebsterHall">Webster Hall</option>
+                      <option value="QueenLiliuokalaniCenterforStudentServices">Queen Liliuokalani Center for Student Services</option>
+                      <option value="SaundersHall">Saunders Hall</option>
+                      <option value="CrawfordHall">Crawford Hall</option>
+                      <option value="BusinessAdministrationBuilding">Business Administration Building</option>
+                      <option value="GeorgeHall">George Hall</option>
+                    </select>
+                    <div className="invalid-feedback">{errors.location?.message}</div>
                   </Form.Group>
                   </Col>
                   <Col>
                   <Form.Group>
-                    <Form.Label>Last Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('lastName')}
-                      className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
-                  </Form.Group>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Form.Group>
-                      <Form.Label>Address</Form.Label>
-                      <input
-                        type="text"
-                        {...register('address')}
-                        className={`form-control ${errors.address ? 'is-invalid' : ''}`}
-                      />
-                      <div className="invalid-feedback">{errors.address?.message}</div>
-                    </Form.Group>
-                  </Col>
-                  <Col>
-                    <Form.Group>
-                      <Form.Label>Image</Form.Label>
-                      <input
-                        type="text"
-                        {...register('image')}
-                        className={`form-control ${errors.image ? 'is-invalid' : ''}`}
-                      />
-                      <div className="invalid-feedback">{errors.image?.message}</div>
-                    </Form.Group>
+                  <Form.Label>Floor</Form.Label>
+                  <input
+                    type="number"
+                    {...register('floor')}
+                    className={`form-control ${errors.floor ? 'is-invalid' : ''}`}
+                  />
+                  <div className="invalid-feedback">{errors.floor?.message}</div>
+                </Form.Group>
                   </Col>
                 </Row>
                 <Form.Group>
@@ -109,7 +124,6 @@ const AddContactForm: React.FC = () => {
                   />
                   <div className="invalid-feedback">{errors.description?.message}</div>
                 </Form.Group>
-                <input type="hidden" {...register('owner')} value={currentUser} />
                 <Form.Group className="form-group">
                   <Row className="pt-3">
                     <Col>
@@ -133,4 +147,4 @@ const AddContactForm: React.FC = () => {
   );
 };
 
-export default AddContactForm;
+export default AddPinForm;
