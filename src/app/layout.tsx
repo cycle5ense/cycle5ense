@@ -46,7 +46,7 @@ export default function RootLayout({
             activeHref="/"
             className="custom-nav"
             ease="power2.easeOut"
-            baseColor="#000000"
+            baseColor="#2d4a2d"
             pillColor="#ffffff"
             hoveredPillTextColor="#ffffff"
             pillTextColor="#000000"
