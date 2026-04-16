@@ -1,4 +1,5 @@
 import { Card, Col, Container, Row } from 'react-bootstrap';
+import CircularGallery from '@/components/CircularGallery';
 
 export default function SortingGuidePage() {
   return (
@@ -8,6 +9,25 @@ export default function SortingGuidePage() {
         This page is a mockup showing how CycleSense can help users identify common recyclable
         materials and sort them properly on the UH Mānoa campus.
       </p>
+
+      <div style={{ height: '500px', position: 'relative', marginBottom: '2rem' }}>
+        <CircularGallery 
+          items={[
+            { image: '/img/bottles.webp', text: 'Plastic Bottles' },
+            { image: '/img/bottles2.jpg', text: 'Bottom of Plastic Bottles' },
+            { image: '/img/cans.jpg', text: 'Aluminum Cans' },
+            { image: '/img/cans2.jpg', text: 'More Cans' },
+            { image: '/img/glass.png', text: 'Glass Bottles' },
+            { image: '/img/glass2.jpg', text: 'More Glass' },
+            { image: '/img/recyclable.jpg', text: 'Recyclables' },
+          ]}
+          bend={4}
+          textColor="#ffffff"
+          borderRadius={0.09}
+          scrollSpeed={2}
+          scrollEase={0.05}
+        />
+      </div>
 
       <Row className="g-4">
         <Col md={6}>
