@@ -1,6 +1,6 @@
 'use server';
 
-import { Pin, Building } from '@prisma/client';
+import { Pin, Building, AmPm } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
@@ -119,5 +119,57 @@ export async function editContact(pin: Pin) {
     },
   });
   // After updating, redirect to the list page
+  redirect('/list');
+}
+
+export async function addAnnouncement(data: {
+  name: string;
+  timeStart: number;
+  timeStartPeriod: AmPm;
+  timeEnd: number;
+  timeEndPeriod: AmPm;
+  date: number;
+  location: string;
+  description: string;
+}) {
+  await prisma.announcement.create({
+    data: {
+      name: data.name,
+      timeStart: data.timeStart,
+      timeStartPeriod: data.timeStartPeriod,
+      timeEnd: data.timeEnd,
+      timeEndPeriod: data.timeEndPeriod,
+      date: data.date,
+      location: data.location,
+      description: data.description,
+    },
+  });
+  redirect('/list');
+}
+
+export async function editAnnouncement(data: {
+  id: number;
+  name: string;
+  timeStart: number;
+  timeStartPeriod: AmPm;
+  timeEnd: number;
+  timeEndPeriod: AmPm;
+  date: number;
+  location: string;
+  description: string;
+}) {
+  await prisma.announcement.update({
+    where: { id: data.id },
+    data: {
+      name: data.name,
+      timeStart: data.timeStart,
+      timeStartPeriod: data.timeStartPeriod,
+      timeEnd: data.timeEnd,
+      timeEndPeriod: data.timeEndPeriod,
+      date: data.date,
+      location: data.location,
+      description: data.description,
+    },
+  });
   redirect('/list');
 }
