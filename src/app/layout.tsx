@@ -5,6 +5,7 @@ import './globals.css';
 import Footer from '@/components/Footer';
 import PillNav from '@/components/PillNav';
 import Providers from './providers';
+import 'leaflet/dist/leaflet.css';
 
 const logo = '/img/logo.png';
 
