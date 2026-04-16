@@ -12,30 +12,21 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
+type Pin = {
+  id: number;
+  latitude: number;
+  longitude: number;
+  name: string;
+  description: string;
+};
+
+type LeafletMapProps = {
+  pins: Pin[];
+};
+
 const center: [number, number] = [21.2972, -157.8170];
 
-const markerData = [
-  {
-    id: 1,
-    position: [21.298334640012257, -157.81871936831024] as [number, number],
-    title: 'Campus Center',
-    description: 'Outside east entrance',
-  },
-  {
-    id: 2,
-    position: [21.298444955798594, -157.81749982128116] as [number, number],
-    title: 'Kuykendall Hall',
-    description: '3rd floor, west stairwell',
-  },
-  {
-    id: 3,
-    position: [21.297485778551213, -157.81628644705341] as [number, number],
-    title: 'POST Building',
-    description: 'Near building entrance',
-  },
-];
-
-export default function LeafletMap() {
+export default function LeafletMap({ pins }: LeafletMapProps) {
   return (
     <MapContainer
       center={center}
@@ -48,12 +39,12 @@ export default function LeafletMap() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {markerData.map((marker) => (
-        <Marker key={marker.id} position={marker.position}>
+      {pins.map((pin) => (
+        <Marker key={pin.id} position={[pin.latitude, pin.longitude]}>
           <Popup>
-            <strong>{marker.title}</strong>
+            <strong>{pin.name}</strong>
             <br />
-            {marker.description}
+            {pin.description}
           </Popup>
         </Marker>
       ))}

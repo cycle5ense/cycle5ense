@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={classString}>
-       <Providers>
+        <Providers>
           <PillNav
             logo={logo}
             logoAlt="Cycle5ense Logo"
@@ -45,7 +45,9 @@ export default function RootLayout({
               { label: 'Bottles4College Announcements', href: '/announcements' },
               { label: 'Manoa Bin Map', href: '/map' },
               { label: 'Sorting Guide', href: '/sorting-guide' },
-              { label: 'Recycling Statistics', href: '/recycle-statistics' }
+              { label: 'Recycling Statistics', href: '/recycle-statistics' },
+              { label: 'Add Pin', href: '/add-pin' },
+              { label: 'Edit Pins', href: '/edit-pins' }
             ]}
             activeHref="/"
             className="custom-nav"
