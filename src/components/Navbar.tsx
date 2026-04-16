@@ -18,6 +18,7 @@ const NavBar: React.FC = () => {
     <Navbar bg="light" expand="lg" className="border-bottom py-2">
       <Container>
         <Navbar.Brand href="/" className="fw-normal me-4">
+          <img src="/img/cycle5ense-logo.png" alt="CycleSense Logo" height="40" />
           CycleSense
         </Navbar.Brand>
 
