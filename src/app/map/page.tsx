@@ -1,5 +1,10 @@
+import dynamic from 'next/dynamic';
 import { Container } from 'react-bootstrap';
-import LeafletMap from '@/components/LeafletMap';
+
+const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
+  ssr: false,
+  loading: () => <p>Loading map...</p>,
+});
 
 const MapPage = () => {
   return (
