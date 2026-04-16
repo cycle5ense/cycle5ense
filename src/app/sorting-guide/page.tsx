@@ -3,7 +3,7 @@ import CircularGallery from '@/components/CircularGallery';
 
 export default function SortingGuidePage() {
   return (
-    <Container className="py-4">
+    <Container className="py-5">
       <h1 className="fw-bold mb-3">Sorting Guide</h1>
       <p className="mb-4">
         This page is a mockup showing how CycleSense can help users identify common recyclable

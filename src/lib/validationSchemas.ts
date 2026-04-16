@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { AmPm } from '@prisma/client';
 
 export const AddStuffSchema = Yup.object({
   name: Yup.string().required(),
@@ -13,4 +14,79 @@ export const EditStuffSchema = Yup.object({
   quantity: Yup.number().positive().required(),
   condition: Yup.string().oneOf(['excellent', 'good', 'fair', 'poor']).required(),
   owner: Yup.string().required(),
+});
+
+export const AddPinSchema = Yup.object({
+  location: Yup.string().oneOf([
+    'Outside',
+    'CampusCenter',
+    'ArtBuilding',
+    'HolmesHall',
+    'KraussHall',
+    'POST',
+    'MarineScienceBuilding',
+    'UniversityHealthServices',
+    'KennedyTheatre',
+    'KellerHall',
+    'WatanabeHall',
+    'HawaiiInstituteGeophysics',
+    'PhysicalScienceBuilding',
+    'InformationTechnologyCenter',
+    'BilgerHall',
+    'BilgerAddition',
+    'SakamakiHall',
+    'KuykendallHall',
+    'KuykendallAnnex',
+    'Building37',
+    'MillerHall',
+    'WarriorRecreationCenter',
+    'AdminServicesBuilding1',
+    'AdminServicesBuilding2',
+    'HemmenwayHall',
+    'BachmanHall',
+    'DeanHall',
+    'GartleyHall',
+    'FutureStudentSuccessCenter',
+    'ArchitectureBuilding',
+    'AndrewsOutdoorTheatre',
+    'HawaiiHall',
+    'LifeSciencesBuilding',
+    'MooreHall',
+    'ParadisePalms',
+    'HamiltonLibrary',
+    'HamiltonLibraryAddition',
+    'EdmondsonHall',
+    'SpaldingHall',
+    'WebsterHall',
+    'QueenLiliuokalaniCenterforStudentServices',
+    'SaundersHall',
+    'CrawfordHall',
+    'BusinessAdministrationBuilding',
+    'GeorgeHall',
+  ]).required(),
+  floor: Yup.number().positive().required(),
+  description: Yup.string().required(),
+});
+
+export const AddAnnouncementSchema = Yup.object({
+  name: Yup.string().required(),
+  timeStart: Yup.number().integer().min(1).max(12).required(),
+  timeStartPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
+  timeEnd: Yup.number().integer().min(1).max(12).required(),
+  timeEndPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
+  date: Yup.number().integer().required(),
+  location: Yup.string().required(),
+  description: Yup.string().required(),
+});
+
+export const EditAnnouncementSchema = Yup.object({
+  id: Yup.number().required(),
+  name: Yup.string().required(),
+  timeStart: Yup.number().integer().min(1).max(12).required(),
+  timeStartPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
+  timeEnd: Yup.number().integer().min(1).max(12).required(),
+  timeEndPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
+  date: Yup.number().integer().required(),
+  location: Yup.string().required(),
+  description: Yup.string().required(),
 });

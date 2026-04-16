@@ -15,7 +15,7 @@ const RecycleStatisticsPage = () => {
         <Row className="mb-4">
           <Col>
           <h1 className="fw-bold">Recycling Impact Statistics</h1>
-          <p className="text-muted">This page is a mockup showing how our website page can present recycling impact data over the years in simple and clear way. We will likely integrate information based on Bottles4College&apos;s data.</p>
+          <p className="text-muted">This page is a mockup showing how the website page can present recycling impact data over the years in simple and clear way. We will likely integrate information based on Bottles4College&apos;s data.</p>
           </Col>
         </Row>
         <Row className="g-4 mb-5">

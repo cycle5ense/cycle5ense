@@ -1,68 +1,10 @@
 'use server';
 
-import { Condition } from '@prisma/client';
-import { Stuff } from '@prisma/client';
+import { Pin, Building, AmPm } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
 
-/**
- * Adds a new stuff to the database.
- * @param stuff, an object with the following properties: name, quantity, owner, condition.
- */
-export async function addStuff(stuff: { name: string; quantity: number; owner: string; condition: string }) {
-  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  let condition: Condition = 'good';
-  if (stuff.condition === 'poor') {
-    condition = 'poor';
-  } else if (stuff.condition === 'excellent') {
-    condition = 'excellent';
-  } else {
-    condition = 'fair';
-  }
-  await prisma.stuff.create({
-    data: {
-      name: stuff.name,
-      quantity: stuff.quantity,
-      owner: stuff.owner,
-      condition,
-    },
-  });
-  // After adding, redirect to the list page
-  redirect('/list');
-}
-
-/**
- * Edits an existing stuff in the database.
- * @param stuff, an object with the following properties: id, name, quantity, owner, condition.
- */
-export async function editStuff(stuff: Stuff) {
-  // console.log(`editStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  await prisma.stuff.update({
-    where: { id: stuff.id },
-    data: {
-      name: stuff.name,
-      quantity: stuff.quantity,
-      owner: stuff.owner,
-      condition: stuff.condition,
-    },
-  });
-  // After updating, redirect to the list page
-  redirect('/list');
-}
-
-/**
- * Deletes an existing stuff from the database.
- * @param id, the id of the stuff to delete.
- */
-export async function deleteStuff(id: number) {
-  // console.log(`deleteStuff id: ${id}`);
-  await prisma.stuff.delete({
-    where: { id },
-  });
-  // After deleting, redirect to the list page
-  redirect('/list');
-}
 
 /**
  * Creates a new user in the database.
@@ -92,4 +34,142 @@ export async function changePassword(credentials: { email: string; password: str
       password,
     },
   });
+}
+/**
+ * Changes the password of an existing user in the database.
+ * @param credentials, an object with the following properties: email, password.
+ */
+export async function addPin(pin: {
+  location: Building;
+  floor: number;
+  description: string;
+  }) {
+  const validBuildings: Building[] = [
+  Building.Outside,
+  Building.CampusCenter,
+  Building.ArtBuilding,
+  Building.HolmesHall,
+  Building.KraussHall,
+  Building.POST,
+  Building.MarineScienceBuilding,
+  Building.UniversityHealthServices,
+  Building.KennedyTheatre,
+  Building.KellerHall,
+  Building.WatanabeHall,
+  Building.HawaiiInstituteGeophysics,
+  Building.PhysicalScienceBuilding,
+  Building.InformationTechnologyCenter,
+  Building.BilgerHall,
+  Building.BilgerAddition,
+  Building.SakamakiHall,
+  Building.KuykendallHall,
+  Building.KuykendallAnnex,
+  Building.Building37,
+  Building.MillerHall,
+  Building.WarriorRecreationCenter,
+  Building.AdminServicesBuilding1,
+  Building.AdminServicesBuilding2,
+  Building.HemmenwayHall,
+  Building.BachmanHall,
+  Building.DeanHall,
+  Building.GartleyHall,
+  Building.FutureStudentSuccessCenter,
+  Building.ArchitectureBuilding,
+  Building.AndrewsOutdoorTheatre,
+  Building.HawaiiHall,
+  Building.LifeSciencesBuilding,
+  Building.MooreHall,
+  Building.ParadisePalms,
+  Building.HamiltonLibrary,
+  Building.HamiltonLibraryAddition,
+  Building.EdmondsonHall,
+  Building.SpaldingHall,
+  Building.WebsterHall,
+  Building.QueenLiliuokalaniCenterforStudentServices,
+  Building.SaundersHall,
+  Building.CrawfordHall,
+  Building.BusinessAdministrationBuilding,
+  Building.GeorgeHall,
+];
+  const location: Building = validBuildings.includes(pin.location)
+    ? pin.location
+    : Building.Outside;
+
+  await prisma.pin.create({
+    data: {
+      location,
+      floor: pin.floor,
+      description: pin.description,
+    },
+  });
+  redirect('/list');
+}
+
+/**
+ * Edits pin
+ *  @param pin,
+ */
+
+export async function editContact(pin: Pin) {
+  await prisma.pin.update({
+    where: { id: pin.id },
+    data: {
+      location: pin.location,
+      floor: pin.floor
+    },
+  });
+  // After updating, redirect to the list page
+  redirect('/list');
+}
+
+export async function addAnnouncement(data: {
+  name: string;
+  timeStart: number;
+  timeStartPeriod: AmPm;
+  timeEnd: number;
+  timeEndPeriod: AmPm;
+  date: number;
+  location: string;
+  description: string;
+}) {
+  await prisma.announcement.create({
+    data: {
+      name: data.name,
+      timeStart: data.timeStart,
+      timeStartPeriod: data.timeStartPeriod,
+      timeEnd: data.timeEnd,
+      timeEndPeriod: data.timeEndPeriod,
+      date: data.date,
+      location: data.location,
+      description: data.description,
+    },
+  });
+  redirect('/list');
+}
+
+export async function editAnnouncement(data: {
+  id: number;
+  name: string;
+  timeStart: number;
+  timeStartPeriod: AmPm;
+  timeEnd: number;
+  timeEndPeriod: AmPm;
+  date: number;
+  location: string;
+  description: string;
+}) {
+  await prisma.announcement.update({
+    where: { id: data.id },
+    data: {
+      name: data.name,
+      timeStart: data.timeStart,
+      timeStartPeriod: data.timeStartPeriod,
+      timeEnd: data.timeEnd,
+      timeEndPeriod: data.timeEndPeriod,
+      date: data.date,
+      location: data.location,
+      description: data.description,
+    },
+  });
+  redirect('/list');
 }

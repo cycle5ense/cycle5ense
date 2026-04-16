@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:ital,wght@0,400;0,600;1,400&display=swap');
+
 html,
 body {
   --bs-light-rgb: 236, 236, 236;
@@ -5,12 +7,38 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+
+  /* Color palette */
+  --color-bg: #f2f5f0;
+  --color-bg-alt: #e8ede4;
+  --color-green-dark: #2d4a2d;
+  --color-green-mid: #4a7c4a;
+  --color-green-light: #7aad6e;
+  --color-accent: #c8e6a0;
+  --color-text: #1a2e1a;
+  --color-text-muted: #5a7a5a;
+  --color-link: var(--color-accent);
+  --color-link-hover: #5b9bd5;
+
+  /* Typography */
+  font-family: 'DM Sans', sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
+
 .wrapper {
   box-sizing: border-box;
   min-height: 100%;
   display: flex;
   flex-direction: column;
+
+  /* Subtle leaf-texture background */
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(122, 173, 110, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(74, 124, 74, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 90%, rgba(200, 230, 160, 0.15) 0%, transparent 50%);
+  background-attachment: fixed;
 }
 
 .circular-gallery {
@@ -24,3 +52,21 @@ body {
   cursor: grabbing;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Fraunces', serif;
+  color: var(--color-green-dark);
+  font-weight: 600;
+}
+
+p, li, span {
+  line-height: 1.7;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
