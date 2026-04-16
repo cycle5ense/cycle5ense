@@ -7,7 +7,7 @@ const Home = () => (
       <Container>
         <Row className="align-items-center">
           <Col lg={7}>
-            <h1 className="display-4 fw-bold mb-3">Cycle5ense</h1>
+            <h1 className="display-4 fw-bold text-white mb-3">Cycle5ense</h1>
             <p className="lead mb-0">
               Cycle5ense helps the Manoa community recycle more confidently by bringing together
               campus recycling tools, guidance, announcements, and impact information in one place.
@@ -129,7 +129,7 @@ const Home = () => (
       <Container>
         <Row className="align-items-center">
           <Col lg={8}>
-            <h2 className="fw-bold mb-3">Admin Access</h2>
+            <h2 className="fw-bold text-white mb-3">Admin Access</h2>
             <p className="mb-0">
               The site will later support an admin sign-in for authorized users who
               update announcements, recycling information, and statistics.

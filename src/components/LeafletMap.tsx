@@ -41,7 +41,7 @@ export default function LeafletMap() {
       center={center}
       zoom={17}
       scrollWheelZoom
-      style={{ height: '600px', width: '100%', borderRadius: '8px' }}
+      style={{ height: '600px', width: '100%', borderRadius: '8px', zIndex: 0 }}
     >
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
