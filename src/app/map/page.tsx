@@ -1,14 +1,10 @@
-'use client';
-
-import dynamic from 'next/dynamic';
 import { Container } from 'react-bootstrap';
+import { getPins } from '@/lib/dbActions';
+import MapClient from '@/components/MapClient';
 
-const LeafletMap = dynamic(() => import('@/components/LeafletMap'), {
-  ssr: false,
-  loading: () => <p>Loading map...</p>,
-});
+const MapPage = async () => {
+  const pins = await getPins();
 
-const MapPage = () => {
   return (
     <Container className="py-5">
       <h1 className="fw-bold mb-3">Manoa Bin Map</h1>
@@ -18,7 +14,7 @@ const MapPage = () => {
         view location details.
       </p>
 
-      <LeafletMap />
+      <MapClient pins={pins} />
     </Container>
   );
 };

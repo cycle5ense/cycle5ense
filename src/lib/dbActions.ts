@@ -1,17 +1,16 @@
 'use server';
 
-import { Pin, Building, AmPm } from '@prisma/client';
+import { Pin, AmPm } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { prisma } from './prisma';
-
 
 /**
  * Creates a new user in the database.
  * @param credentials, an object with the following properties: email, password.
  */
 export async function createUser(credentials: { email: string; password: string }) {
-  // console.log(`createUser data: ${JSON.stringify(credentials, null, 2)}`);
   const password = await hash(credentials.password, 10);
   await prisma.user.create({
     data: {
@@ -26,7 +25,6 @@ export async function createUser(credentials: { email: string; password: string 
  * @param credentials, an object with the following properties: email, password.
  */
 export async function changePassword(credentials: { email: string; password: string }) {
-  // console.log(`changePassword data: ${JSON.stringify(credentials, null, 2)}`);
   const password = await hash(credentials.password, 10);
   await prisma.user.update({
     where: { email: credentials.email },
@@ -35,93 +33,80 @@ export async function changePassword(credentials: { email: string; password: str
     },
   });
 }
-/**
- * Changes the password of an existing user in the database.
- * @param credentials, an object with the following properties: email, password.
- */
-export async function addPin(pin: {
-  location: Building;
-  floor: number;
-  description: string;
-  }) {
-  const validBuildings: Building[] = [
-  Building.Outside,
-  Building.CampusCenter,
-  Building.ArtBuilding,
-  Building.HolmesHall,
-  Building.KraussHall,
-  Building.POST,
-  Building.MarineScienceBuilding,
-  Building.UniversityHealthServices,
-  Building.KennedyTheatre,
-  Building.KellerHall,
-  Building.WatanabeHall,
-  Building.HawaiiInstituteGeophysics,
-  Building.PhysicalScienceBuilding,
-  Building.InformationTechnologyCenter,
-  Building.BilgerHall,
-  Building.BilgerAddition,
-  Building.SakamakiHall,
-  Building.KuykendallHall,
-  Building.KuykendallAnnex,
-  Building.Building37,
-  Building.MillerHall,
-  Building.WarriorRecreationCenter,
-  Building.AdminServicesBuilding1,
-  Building.AdminServicesBuilding2,
-  Building.HemmenwayHall,
-  Building.BachmanHall,
-  Building.DeanHall,
-  Building.GartleyHall,
-  Building.FutureStudentSuccessCenter,
-  Building.ArchitectureBuilding,
-  Building.AndrewsOutdoorTheatre,
-  Building.HawaiiHall,
-  Building.LifeSciencesBuilding,
-  Building.MooreHall,
-  Building.ParadisePalms,
-  Building.HamiltonLibrary,
-  Building.HamiltonLibraryAddition,
-  Building.EdmondsonHall,
-  Building.SpaldingHall,
-  Building.WebsterHall,
-  Building.QueenLiliuokalaniCenterforStudentServices,
-  Building.SaundersHall,
-  Building.CrawfordHall,
-  Building.BusinessAdministrationBuilding,
-  Building.GeorgeHall,
-];
-  const location: Building = validBuildings.includes(pin.location)
-    ? pin.location
-    : Building.Outside;
 
+/**
+ * Returns all pins.
+ */
+export async function getPins(): Promise<Pin[]> {
+  return prisma.pin.findMany({
+    orderBy: {
+      id: 'asc',
+    },
+  });
+}
+
+/**
+ * Adds a new pin.
+ */
+export async function addPin(data: {
+  latitude: number;
+  longitude: number;
+  name: string;
+  description: string;
+}) {
   await prisma.pin.create({
     data: {
-      location,
-      floor: pin.floor,
-      description: pin.description,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      name: data.name,
+      description: data.description,
     },
   });
-  redirect('/list');
+
+  revalidatePath('/map');
+  revalidatePath('/edit-pins');
+  revalidatePath('/add-pin');
 }
 
 /**
- * Edits pin
- *  @param pin,
+ * Updates an existing pin.
  */
-
-export async function editContact(pin: Pin) {
+export async function updatePin(data: {
+  id: number;
+  latitude: number;
+  longitude: number;
+  name: string;
+  description: string;
+}) {
   await prisma.pin.update({
-    where: { id: pin.id },
+    where: { id: data.id },
     data: {
-      location: pin.location,
-      floor: pin.floor
+      latitude: data.latitude,
+      longitude: data.longitude,
+      name: data.name,
+      description: data.description,
     },
   });
-  // After updating, redirect to the list page
-  redirect('/list');
+
+  revalidatePath('/map');
+  revalidatePath('/edit-pins');
 }
 
+/**
+ * Removes a pin by id.
+ */
+export async function removePin(id: number) {
+  await prisma.pin.delete({
+    where: { id },
+  });
+
+  revalidatePath('/map');
+  revalidatePath('/edit-pins');
+}
+
+/**
+ * Adds a new announcement.
+ */
 export async function addAnnouncement(data: {
   name: string;
   timeStart: number;
@@ -147,6 +132,9 @@ export async function addAnnouncement(data: {
   redirect('/list');
 }
 
+/**
+ * Edits an announcement.
+ */
 export async function editAnnouncement(data: {
   id: number;
   name: string;

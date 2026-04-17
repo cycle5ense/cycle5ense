@@ -12,11 +12,16 @@ import { AddPinSchema } from '@/lib/validationSchemas';
 import { Building } from '@prisma/client';
 
 const onSubmit = async (data: {
-  location: Building,
-  floor: number,
-  description: string, }) => {
-  // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
-  await addPin(data);
+  location: Building;
+  floor: number;
+  description: string;
+}) => {
+  await addPin({
+    name: String(data.location),
+    latitude: 0,
+    longitude: 0,
+    description: data.description,
+  });
   swal('Success', 'Your pin has been added', 'success', {
     timer: 2000,
   });
