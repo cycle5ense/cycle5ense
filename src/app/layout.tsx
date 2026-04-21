@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import PillNav from '@/components/PillNav';
 import Providers from './providers';
 import 'leaflet/dist/leaflet.css';
+import { auth } from '@/lib/auth';
 
 const logo = '/img/logo.png';
 
@@ -27,11 +28,42 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const role = session?.user?.role;
+  const isLoggedIn = !!session?.user;
+
+  const defaultItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Bottles4College Announcements', href: '/announcements' },
+    { label: 'Manoa Bin Map', href: '/map' },
+    { label: 'Sorting Guide', href: '/sorting-guide' },
+    { label: 'Recycling Statistics', href: '/recycle-statistics' },
+  ];
+
+  const roleItems = role === 'ADMIN'
+    ? [
+      { label: 'Admin', href: '/admin' },
+      { label: 'Add Pin', href: '/add-pin' },
+      { label: 'Edit Pins', href: '/edit-pins' },
+    ]
+    : role === 'USER'
+      ? [{ label: 'My Profile', href: '/user' }]
+      : [];
+
+  const authItems = isLoggedIn
+    ? [{ label: 'Sign Out', href: '/auth/signout' }]
+    : [
+      { label: 'Sign In', href: '/auth/signin' },
+      { label: 'Sign Up', href: '/auth/signup' },
+    ];
+
+  const navItems = [...defaultItems, ...roleItems, ...authItems];
+
   const classString = `${geistSans.variable} ${geistMono.variable} wrapper`;
   return (
     <html lang="en">
@@ -40,15 +72,7 @@ export default function RootLayout({
           <PillNav
             logo={logo}
             logoAlt="Cycle5ense Logo"
-            items={[
-              { label: 'Home', href: '/' },
-              { label: 'Bottles4College Announcements', href: '/announcements' },
-              { label: 'Manoa Bin Map', href: '/map' },
-              { label: 'Sorting Guide', href: '/sorting-guide' },
-              { label: 'Recycling Statistics', href: '/recycle-statistics' },
-              { label: 'Add Pin', href: '/add-pin' },
-              { label: 'Edit Pins', href: '/edit-pins' }
-            ]}
+            items={navItems}
             activeHref="/"
             className="custom-nav"
             ease="power2.easeOut"

@@ -17,10 +17,11 @@ type Pin = {
 
 type MapClientProps = {
   pins: Pin[];
+  isAdmin?: boolean;
 };
 
-const MapClient = ({ pins }: MapClientProps) => {
-  return <LeafletMap pins={pins} />;
+const MapClient = ({ pins, isAdmin = false }: MapClientProps) => {
+  return <LeafletMap pins={pins} isAdmin={isAdmin} />;
 };
 
 export default MapClient;

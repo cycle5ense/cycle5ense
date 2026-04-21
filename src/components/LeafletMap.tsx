@@ -23,6 +23,7 @@ type Pin = {
 
 type LeafletMapProps = {
   pins: Pin[];
+  isAdmin?: boolean;
 };
 
 const center: [number, number] = [21.2972, -157.8170];
@@ -37,7 +38,7 @@ function MapClickHandler() {
   return null;
 }
 
-export default function LeafletMap({ pins }: LeafletMapProps) {
+export default function LeafletMap({ pins, isAdmin = false }: LeafletMapProps) {
   return (
     <MapContainer
       center={center}
@@ -45,7 +46,7 @@ export default function LeafletMap({ pins }: LeafletMapProps) {
       scrollWheelZoom
       style={{ height: '600px', width: '100%', borderRadius: '8px', zIndex: 0 }}
     >
-      <MapClickHandler />
+      {isAdmin && <MapClickHandler />}
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -57,10 +58,14 @@ export default function LeafletMap({ pins }: LeafletMapProps) {
             <strong>{pin.name}</strong>
             <br />
             {pin.description}
-            <br />
-            <a href={`/edit-pins#pin-${pin.id}`} style={{ fontSize: '0.85em' }}>
-              Edit this pin
-            </a>
+            {isAdmin && (
+              <>
+                <br />
+                <a href={`/edit-pins#pin-${pin.id}`} style={{ fontSize: '0.85em' }}>
+                  Edit this pin
+                </a>
+              </>
+            )}
           </Popup>
         </Marker>
       ))}
