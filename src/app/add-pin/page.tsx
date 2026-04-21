@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button, Container, Form } from 'react-bootstrap';
 import { addPin } from '@/lib/dbActions';
 
 const AddPinPage = () => {
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+  const searchParams = useSearchParams();
+  const [latitude, setLatitude] = useState(searchParams.get('lat') ?? '');
+  const [longitude, setLongitude] = useState(searchParams.get('lng') ?? '');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -29,7 +31,7 @@ const AddPinPage = () => {
   };
 
   return (
-    <Container className="py-4">
+    <Container className="py-5">
       <h1 className="fw-bold mb-3">Add Pin</h1>
       <p className="mb-4">
         Enter the coordinates and location information for a new recycling pin.

@@ -7,7 +7,7 @@ const EditPinsPage = async () => {
   const pins = await getPins();
 
   return (
-    <Container className="py-4">
+    <Container className="py-5">
       <h1 className="fw-bold mb-3">Edit Pins</h1>
       <p className="mb-4">
         Update existing recycling pins or remove them from the map.
@@ -16,6 +16,7 @@ const EditPinsPage = async () => {
       {pins.map((pin) => (
         <Form
           key={pin.id}
+          id={`pin-${pin.id}`}
           className="border rounded p-3 mb-4"
         >
           <input type="hidden" name="id" value={pin.id} />
