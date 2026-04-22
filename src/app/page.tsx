@@ -1,6 +1,7 @@
 "use client";
 import Image from 'next/image';
 import { Col, Container, Row, Card, Button } from 'react-bootstrap';
+import Link from 'next/link';
 
 /** The Home page. */
 const Home = () => (
@@ -215,15 +216,17 @@ const Home = () => (
           <Col lg={8}>
             <h2 className="fw-bold text-white mb-3">Admin Access</h2>
             <p className="mb-0">
-              The site will later support an admin sign-in for authorized users who
-              update announcements, recycling information, and statistics.
+              Are you an administrator looking to manage the website&apos;s content? Click the button to
+              sign in and update announcements, recycling information, or statistics.
             </p>
           </Col>
 
           <Col lg={4} className="text-lg-end mt-4 mt-lg-0">
-            <Button variant="warning" size="lg" disabled>
-              Admin Sign In Coming Soon
-            </Button>
+            <Link href="/admin/signin" className='text-decoration-none'>
+              <Button variant="success" size="lg">
+              Admin Sign In
+              </Button>
+            </Link>
           </Col>
         </Row>
       </Container>
