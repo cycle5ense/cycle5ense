@@ -38,7 +38,7 @@ const AddPinPage = () => {
       </p>
 
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="latitude">
           <Form.Label>Latitude</Form.Label>
           <Form.Control
             type="number"
@@ -49,7 +49,7 @@ const AddPinPage = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="longitude">
           <Form.Label>Longitude</Form.Label>
           <Form.Control
             type="number"
@@ -60,7 +60,7 @@ const AddPinPage = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="buildingName">
           <Form.Label>Building Name</Form.Label>
           <Form.Control
             type="text"
@@ -70,7 +70,7 @@ const AddPinPage = () => {
           />
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3" controlId="locationDescription">
           <Form.Label>Location Description</Form.Label>
           <Form.Control
             as="textarea"

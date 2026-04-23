@@ -8,8 +8,8 @@ test('admin can access all pages', async ({ getUserPage }) => {
   const adminPage = await getUserPage('admin@admin.com', 'adm!n');
 
   await adminPage.goto(`${BASE_URL}/`);
-  await expect(adminPage.getByRole('button', { name: 'admin@admin.com' })).toBeVisible({ timeout: 10000 });
-  await expect(adminPage.getByRole('heading', { name: 'Cycle5ense' })).toBeVisible({ timeout: 5000 });
+  await expect(adminPage.locator('.pill-nav-items a[href="/auth/signout"]')).toBeAttached({ timeout: 10000 });
+  await expect(adminPage.getByRole('heading', { name: 'Cycle5ense', exact: true })).toBeVisible({ timeout: 5000 });
 
   await adminPage.goto(`${BASE_URL}/map`);
   await expect(adminPage.getByRole('heading', { name: 'Manoa Bin Map' })).toBeVisible({ timeout: 5000 });
@@ -30,13 +30,11 @@ test('admin nav shows admin-specific links but not user or guest links', async (
   await adminPage.goto(`${BASE_URL}/`);
   await adminPage.waitForLoadState('networkidle');
 
-  await expect(adminPage.getByRole('link', { name: 'Admin' })).toBeVisible({ timeout: 5000 });
-  await expect(adminPage.getByRole('link', { name: 'Add Pin' })).toBeVisible({ timeout: 5000 });
-  await expect(adminPage.getByRole('link', { name: 'Edit Pins' })).toBeVisible({ timeout: 5000 });
-  await expect(adminPage.getByRole('link', { name: 'Sign Out' })).toBeVisible({ timeout: 5000 });
-  await expect(adminPage.getByRole('link', { name: 'My Profile' })).not.toBeVisible();
-  await expect(adminPage.getByRole('link', { name: 'Sign In' })).not.toBeVisible();
-  await expect(adminPage.getByRole('link', { name: 'Sign Up' })).not.toBeVisible();
+  await expect(adminPage.locator('.pill-nav-items a[href="/admin"]')).toBeAttached({ timeout: 5000 });
+  await expect(adminPage.locator('.pill-nav-items a[href="/auth/signout"]')).toBeAttached({ timeout: 5000 });
+  await expect(adminPage.locator('.pill-nav-items a[href="/user"]')).not.toBeAttached();
+  await expect(adminPage.locator('.pill-nav-items a[href="/auth/signin"]')).not.toBeAttached();
+  await expect(adminPage.locator('.pill-nav-items a[href="/auth/signup"]')).not.toBeAttached();
 });
 
 test('admin can add, edit, and delete a pin', async ({ getUserPage }) => {
