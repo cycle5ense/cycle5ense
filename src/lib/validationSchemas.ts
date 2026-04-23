@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import { AmPm } from '@prisma/client';
 
 export const AddStuffSchema = Yup.object({
   name: Yup.string().required(),
@@ -70,11 +69,9 @@ export const AddPinSchema = Yup.object({
 
 export const AddAnnouncementSchema = Yup.object({
   name: Yup.string().required(),
-  timeStart: Yup.number().integer().min(1).max(12).required(),
-  timeStartPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
-  timeEnd: Yup.number().integer().min(1).max(12).required(),
-  timeEndPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
-  date: Yup.number().integer().required(),
+  timeStart: Yup.string().required('Start time is required'),
+  timeEnd: Yup.string().required('End time is required'),
+  date: Yup.string().required('Date is required'),
   location: Yup.string().required(),
   description: Yup.string().required(),
 });
@@ -82,11 +79,9 @@ export const AddAnnouncementSchema = Yup.object({
 export const EditAnnouncementSchema = Yup.object({
   id: Yup.number().required(),
   name: Yup.string().required(),
-  timeStart: Yup.number().integer().min(1).max(12).required(),
-  timeStartPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
-  timeEnd: Yup.number().integer().min(1).max(12).required(),
-  timeEndPeriod: Yup.mixed<AmPm>().oneOf(Object.values(AmPm)).required(),
-  date: Yup.number().integer().required(),
+  timeStart: Yup.string().required('Start time is required'),
+  timeEnd: Yup.string().required('End time is required'),
+  date: Yup.string().required('Date is required'),
   location: Yup.string().required(),
   description: Yup.string().required(),
 });

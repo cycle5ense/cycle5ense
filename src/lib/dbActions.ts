@@ -1,6 +1,6 @@
 'use server';
 
-import { Pin, AmPm } from '@prisma/client';
+import { Pin } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
@@ -109,22 +109,20 @@ export async function removePin(id: number) {
  */
 export async function addAnnouncement(data: {
   name: string;
-  timeStart: number;
-  timeStartPeriod: AmPm;
-  timeEnd: number;
-  timeEndPeriod: AmPm;
-  date: number;
+  timeStart: string;
+  timeEnd: string;
+  date: string;
   location: string;
   description: string;
 }) {
+  const dateBase = data.date;
+
   await prisma.announcement.create({
     data: {
       name: data.name,
-      timeStart: data.timeStart,
-      timeStartPeriod: data.timeStartPeriod,
-      timeEnd: data.timeEnd,
-      timeEndPeriod: data.timeEndPeriod,
-      date: data.date,
+      timeStart: new Date(`${dateBase}T${data.timeStart}`),
+      timeEnd: new Date(`${dateBase}T${data.timeEnd}`),
+      date: new Date(dateBase),
       location: data.location,
       description: data.description,
     },
@@ -138,26 +136,30 @@ export async function addAnnouncement(data: {
 export async function editAnnouncement(data: {
   id: number;
   name: string;
-  timeStart: number;
-  timeStartPeriod: AmPm;
-  timeEnd: number;
-  timeEndPeriod: AmPm;
-  date: number;
+  timeStart: string;
+  timeEnd: string;
+  date: string;
   location: string;
   description: string;
 }) {
-  await prisma.announcement.update({
-    where: { id: data.id },
+  const dateBase = data.date;
+
+  await prisma.announcement.create({
     data: {
       name: data.name,
-      timeStart: data.timeStart,
-      timeStartPeriod: data.timeStartPeriod,
-      timeEnd: data.timeEnd,
-      timeEndPeriod: data.timeEndPeriod,
-      date: data.date,
+      timeStart: new Date(`${dateBase}T${data.timeStart}`),
+      timeEnd: new Date(`${dateBase}T${data.timeEnd}`),
+      date: new Date(dateBase),
       location: data.location,
       description: data.description,
     },
   });
   redirect('/list');
+}
+export async function getAnnouncements() {
+  return prisma.announcement.findMany({
+    orderBy: {
+      date: 'asc',
+    },
+  });
 }

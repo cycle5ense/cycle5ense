@@ -1,7 +1,26 @@
 import { Container, Row, Col, Badge, Card, CardBody, CardTitle, CardText } from "react-bootstrap";
 import Image from "next/image";
+import { getAnnouncements } from "@/lib/dbActions";
+
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
+
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
 
 const AnnouncementsPage = async () => {
+  const announcements = await getAnnouncements();
   return (
     <main className="pt-4">
       {/* Hero / Org Description */}
@@ -50,42 +69,42 @@ const AnnouncementsPage = async () => {
           </Col>
         </Row>
 
-        {/* Event card */}
-        <Row className="align-items-stretch">
-          <Col md={8} lg={6}>
-            <Card className="border-0 shadow-sm overflow-hidden h-100">
-              <div style={{ height: "6px", background: "linear-gradient(90deg, #28a745, #ffc107)" }} />
-              <CardBody className="p-4 d-flex flex-column">
-                <div className="d-flex align-items-center gap-2 mb-3">
-                  <Badge bg="success" className="px-3 py-2">
-                    🗓 Upcoming Event
-                  </Badge>
-                </div>
-                <CardTitle className="mb-3">
-                  Aloha ʻĀina Fair (Bottles4College Collection Drive)
-                </CardTitle>
-                <CardText>
-                  Join Bottles4College at the Aloha ʻĀina Fair this Saturday at Windward Mall! We’ll be hosting a recycling collection drive—bring your cans and bottles to support sustainability efforts while helping fund local student scholarships. Stop by to learn more about proper recycling and how you can make an impact in your community.
-                </CardText>
-                <div className="d-flex gap-4 flex-wrap pt-3 mt-auto" style={{ borderTop: "1px solid var(--color-bg-alt)" }}>
-                  <span>📅 Saturday, April 18, 2026</span>
-                  <span>🕘 8:00 AM – 4:00 PM</span>
-                  <span>📍 Windward Mall, Kāneʻohe</span>
-                </div>
-                <div className="pt-4">
-                  <a
-                    href="https://bottles4college.com/pages/aloha-%CA%BBaina-fair"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-outline-success"
-                  >
-                    Learn More
-                  </a>
-                </div>
-              </CardBody>
-            </Card>
-          </Col>
-
+        {/* Announcement cards */}
+        {announcements.length === 0 ? (
+          <p className="text-muted">No announcements yet.</p>
+        ) : (
+          <Row className="g-4">
+            {announcements.map((announcement) => (
+              <Col md={8} lg={6} key={announcement.id}>
+                <Card className="border-0 shadow-sm overflow-hidden h-100">
+                  <div style={{ height: "6px", background: "linear-gradient(90deg, #28a745, #ffc107)" }} />
+                  <CardBody className="p-4 d-flex flex-column">
+                    <div className="d-flex align-items-center gap-2 mb-3">
+                      <Badge bg="success" className="px-3 py-2">
+                        🗓 Upcoming Event
+                      </Badge>
+                    </div>
+                    <CardTitle className="mb-3">
+                      {announcement.name}
+                    </CardTitle>
+                    <CardText>
+                      {announcement.description}
+                    </CardText>
+                    <div
+                      className="d-flex gap-4 flex-wrap pt-3 mt-auto"
+                      style={{ borderTop: "1px solid var(--color-bg-alt)" }}
+                    >
+                      <span>📅 {formatDate(announcement.date)}</span>
+                      <span>🕘 {formatTime(announcement.timeStart)} – {formatTime(announcement.timeEnd)}</span>
+                      <span>📍 {announcement.location}</span>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+        <Row>
           <Col md={4} lg={6}>
             <div className="h-100">
               <Image

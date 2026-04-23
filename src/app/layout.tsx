@@ -46,6 +46,7 @@ export default function RootLayout({
               { label: 'Manoa Bin Map', href: '/map' },
               { label: 'Sorting Guide', href: '/sorting-guide' },
               { label: 'Recycling Statistics', href: '/recycle-statistics' },
+              { label: 'Add Announcement', href: '/add-announcement' },
               { label: 'Add Pin', href: '/add-pin' },
               { label: 'Edit Pins', href: '/edit-pins' }
             ]}
