@@ -1,19 +1,121 @@
-import { Col, Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
+import { Facebook, Instagram, TwitterX, Tiktok } from "react-bootstrap-icons";
+import Link from 'next/link';
+
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
-  <footer className="mt-auto py-3" style={{ backgroundColor: "#2d4a2d", color: "#fff"}}>
+  <footer className="mt-auto py-1" style={{ backgroundColor: "#2d4a2d", color: "#fff"}}>
     <Container>
-      <Col className="text-center">
-        Department of Information and Computer Sciences
-        <br />
-        University of Hawaii
-        <br />
-        Honolulu, HI 96822
-        <br />
-        <a href="http://ics-software-engineering.github.io/nextjs-application-template">Template Home Page</a>
-      </Col>
+      <Row className="py-5">
+        <Col>
+          <strong>Bottles4College Socials</strong>
+          <hr />
+          <Row>
+          <div>
+            <a
+              href="https://www.facebook.com/bottles4college"
+              // className="text-white p-0"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="d-inline-flex align-items-center gap-2 mt-2"
+            >
+            <Facebook /> Facebook
+            </a>
+          </div>
+          </Row>
+          <Row>
+          <div>
+            <a
+              href="https://www.instagram.com/bottles4college"
+              // className="text-white p-0"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="d-inline-flex align-items-center gap-2 mt-2"
+            >
+            <Instagram /> Instagram
+            </a>
+          </div>
+          </Row>
+          <Row>
+          <div>
+            <a
+              href="https://x.com/bottles4college"
+              // className="text-white p-0"
+              aria-label="Twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="d-inline-flex align-items-center gap-2 mt-2"
+            >
+            <TwitterX /> Twitter / X
+            </a>
+          </div>
+          </Row>
+          <Row>
+          <div>
+            <a
+              href="https://www.tiktok.com/@bottles4college"
+              // className="text-white p-0"
+              aria-label="TikTok"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="d-inline-flex align-items-center gap-2 mt-2"
+            >
+            <Tiktok /> TikTok
+            </a>
+          </div>
+          </Row>
+        </Col>
+        <Col>
+          <strong>Site Navigation</strong>
+          <hr />
+          <div className="d-flex flex-column gap-2">
+          <div>
+            <Link href="/" className="text-white text-decoration-none">
+              Home
+            </Link>
+          </div>
+          <div>
+            <Link href="/announcements" className="text-white text-decoration-none">
+              Bottles4College Announcements
+            </Link>
+          </div>
+          <div>
+            <Link href="/map" className="text-white text-decoration-none">
+              Manoa Bin Map
+            </Link>
+          </div>
+          <div>
+            <Link href="/sorting-guide" className="text-white text-decoration-none">
+              Sorting Guide
+            </Link>
+          </div>
+          <div>
+            <Link href="/recycle-statistics" className="text-white text-decoration-none">
+              Recycling Statistics
+            </Link>
+          </div>
+          </div>
+        </Col>
+        <Col lg={4}>
+          <strong>About Us</strong>
+          <hr />
+            <p className="mb-4">
+              Cycle5ense helps the UH Mānoa community recycle smarter by making campus
+              recycling information easier to access.
+            </p>
+            <div className="mb-3">
+            <div className="fw-semibold">University of Hawaiʻi at Mānoa</div>
+            <div className="fw-semibold" >Honolulu, HI 96822</div>
+            </div>
+        </Col>
+      </Row>
     </Container>
+      <div className="text-center small">
+      © 2026 Cycle5ense | Built to support sustainability at UH Mānoa
+    </div>
   </footer>
 );
 
