@@ -37,6 +37,23 @@ async function main() {
       },
     });
   }
+
+  for (const announcement of config.defaultAnnouncements) {
+    const dateBase = announcement.date;
+    console.log(`  Adding announcement: ${announcement.name}`);
+    await prisma.announcement.upsert({
+      where: { id: config.defaultAnnouncements.indexOf(announcement) + 1 },
+      update: {},
+      create: {
+        name: announcement.name,
+        date: new Date(dateBase),
+        timeStart: new Date(`${dateBase}T${announcement.timeStart}`),
+        timeEnd: new Date(`${dateBase}T${announcement.timeEnd}`),
+        location: announcement.location,
+        description: announcement.description,
+      },
+    });
+  }
 }
 main()
   .then(() => prisma.$disconnect())

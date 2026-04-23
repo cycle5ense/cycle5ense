@@ -48,6 +48,7 @@ export default async function RootLayout({
   const roleItems = role === 'ADMIN'
     ? [
       { label: 'Admin', href: '/admin' },
+      { label: 'Add Announcement', href: '/add-announcement' },
       { label: 'Add Pin', href: '/add-pin' },
       { label: 'Edit Pins', href: '/edit-pins' },
     ]
