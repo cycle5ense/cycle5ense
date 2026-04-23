@@ -104,20 +104,7 @@ const AnnouncementsPage = async () => {
             ))}
           </Row>
         )}
-        <Row>
-          <Col md={4} lg={6}>
-            <div className="h-100">
-              <Image
-                src="/img/b4c-community.webp"
-                alt="Bottles4College community"
-                width={800}
-                height={600}
-                className="w-100 h-100"
-                style={{ objectFit: "cover", borderRadius: "0.5rem" }}
-              />
-            </div>
-          </Col>
-        </Row>
+        
       </Container>
     </main>
   );

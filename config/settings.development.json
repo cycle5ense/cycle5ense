@@ -8,5 +8,15 @@
     { "name": "Bicycle", "quantity": 2, "owner": "john@foo.com", "condition": "poor" },
     { "name": "Banana", "quantity": 2, "owner": "admin@foo.com", "condition": "good" },
     { "name": "Boogie Board", "quantity": 2, "owner": "admin@foo.com", "condition": "excellent" }
+  ],
+  "defaultAnnouncements": [
+    {
+      "name": "Aloha ʻĀina Fair Collection Drive",
+      "date": "2026-04-18",
+      "timeStart": "08:00",
+      "timeEnd": "16:00",
+      "location": "Windward Mall, Kāneʻohe",
+      "description": "Join Bottles4College at the Aloha ʻĀina Fair! Bring your cans and bottles to support sustainability efforts while helping fund local student scholarships."
+    }
   ]
 }
