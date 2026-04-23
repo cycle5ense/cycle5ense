@@ -17,25 +17,6 @@ const AdminPage = async () => {
       <Container id="list" fluid className="py-3">
         <Row>
           <Col>
-            <h1>List Stuff Admin</h1>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Quantity</th>
-                  <th>Condition</th>
-                  <th>Owner</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <h1>List Users Admin</h1>
             <Table striped bordered hover>
               <thead>
