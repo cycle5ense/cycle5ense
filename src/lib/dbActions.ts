@@ -1,19 +1,27 @@
 'use server';
 
-import { Pin } from '@prisma/client';
+import { Pin, RecyclingEntry, User } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { prisma } from './prisma';
+import { auth } from './auth';
 
 /**
  * Creates a new user in the database.
- * @param credentials, an object with the following properties: email, password.
+ * @param credentials, an object with the following properties: firstName, lastName, email, password.
  */
-export async function createUser(credentials: { email: string; password: string }) {
+export async function createUser(credentials: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}) {
   const password = await hash(credentials.password, 10);
   await prisma.user.create({
     data: {
+      firstName: credentials.firstName,
+      lastName: credentials.lastName,
       email: credentials.email,
       password,
     },
@@ -32,6 +40,37 @@ export async function changePassword(credentials: { email: string; password: str
       password,
     },
   });
+}
+
+/**
+ * Updates the current user's first and last name.
+ */
+export async function updateCurrentUserProfile(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect('/auth/signin');
+  }
+
+  const firstNameValue = formData.get('firstName');
+  const lastNameValue = formData.get('lastName');
+
+  const firstName = typeof firstNameValue === 'string' ? firstNameValue.trim() : '';
+  const lastName = typeof lastNameValue === 'string' ? lastNameValue.trim() : '';
+
+  if (!firstName || !lastName) {
+    return;
+  }
+
+  await prisma.user.update({
+    where: { email: session.user.email },
+    data: {
+      firstName,
+      lastName,
+    },
+  });
+
+  revalidatePath('/user');
 }
 
 /**
@@ -144,7 +183,8 @@ export async function editAnnouncement(data: {
 }) {
   const dateBase = data.date;
 
-  await prisma.announcement.create({
+  await prisma.announcement.update({
+    where: { id: data.id },
     data: {
       name: data.name,
       timeStart: new Date(`${dateBase}T${data.timeStart}`),
@@ -156,10 +196,160 @@ export async function editAnnouncement(data: {
   });
   redirect('/list');
 }
+
 export async function getAnnouncements() {
   return prisma.announcement.findMany({
     orderBy: {
       date: 'asc',
     },
   });
+}
+
+/**
+ * Returns the currently logged in user.
+ */
+export async function getCurrentUser(): Promise<User | null> {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    return null;
+  }
+
+  return prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+}
+
+/**
+ * Adds a recycling entry for the currently logged in user.
+ */
+export async function addRecyclingEntry(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect('/auth/signin');
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    redirect('/auth/signin');
+  }
+
+  const amountValue = formData.get('amount');
+  const amount = Number(amountValue);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    return;
+  }
+
+  await prisma.recyclingEntry.create({
+    data: {
+      amount,
+      userId: user.id,
+    },
+  });
+
+  revalidatePath('/user');
+  revalidatePath('/recycle-statistics');
+}
+
+/**
+ * Returns all recycling entries for the current user.
+ */
+export async function getCurrentUserRecyclingEntries(): Promise<RecyclingEntry[]> {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    return [];
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    return [];
+  }
+
+  return prisma.recyclingEntry.findMany({
+    where: { userId: user.id },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+}
+
+/**
+ * Returns the total recycled item count for the current user.
+ */
+export async function getCurrentUserRecyclingTotal(): Promise<number> {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    return 0;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    return 0;
+  }
+
+  const result = await prisma.recyclingEntry.aggregate({
+    where: { userId: user.id },
+    _sum: {
+      amount: true,
+    },
+  });
+
+  return result._sum.amount ?? 0;
+}
+
+/**
+ * Returns overall recycling statistics across all users.
+ */
+export async function getOverallRecyclingStats() {
+  const totalItemsResult = await prisma.recyclingEntry.aggregate({
+    _sum: {
+      amount: true,
+    },
+    _count: {
+      id: true,
+    },
+  });
+
+  const totalUsers = await prisma.user.count();
+
+  const currentYear = new Date().getFullYear();
+  const yearStart = new Date(`${currentYear}-01-01T00:00:00.000Z`);
+  const nextYearStart = new Date(`${currentYear + 1}-01-01T00:00:00.000Z`);
+
+  const currentYearResult = await prisma.recyclingEntry.aggregate({
+    where: {
+      createdAt: {
+        gte: yearStart,
+        lt: nextYearStart,
+      },
+    },
+    _sum: {
+      amount: true,
+    },
+    _count: {
+      id: true,
+    },
+  });
+
+  return {
+    totalItems: totalItemsResult._sum.amount ?? 0,
+    totalEntries: totalItemsResult._count.id ?? 0,
+    totalUsers,
+    currentYear,
+    currentYearItems: currentYearResult._sum.amount ?? 0,
+    currentYearEntries: currentYearResult._count.id ?? 0,
+  };
 }

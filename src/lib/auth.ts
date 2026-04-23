@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 declare module 'next-auth' {
   interface Session {
     user: {
+      id?: string;
       role?: string;
     } & DefaultSession['user'];
   }
@@ -21,7 +22,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        // Type guard for credentials
+
         if (
           !credentials ||
           typeof credentials.email !== 'string' ||
@@ -29,15 +30,25 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         ) {
           return null;
         }
-        const user = await prisma.user.findUnique({ where: { email: credentials.email } });
-        if (!user || typeof user.password !== 'string') return null;
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
+
+        if (!user || typeof user.password !== 'string') {
+          return null;
+        }
+
         const isValid = await bcrypt.compare(credentials.password, user.password);
-        if (!isValid) return null;
-        // Return user object for session
+
+        if (!isValid) {
+          return null;
+        }
+
         return {
           id: user.id.toString(),
           email: user.email,
-          name: user.email,
+          name: `${user.firstName} ${user.lastName}`.trim() || user.email,
           role: user.role,
         };
       },
@@ -53,12 +64,13 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
         ...session,
         user: {
           ...session.user,
+          id: typeof token.sub === 'string' ? token.sub : undefined,
           role: (token as { role?: string }).role,
         },
       };
     },
     jwt({ token, user }) {
-      // user is type: { id?: string; email?: string; name?: string; role?: string }
+
       if (user && typeof (user as { role?: string }).role === 'string') {
         token.role = (user as { role?: string }).role;
       }
@@ -66,3 +78,4 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
     },
   },
 });
+
