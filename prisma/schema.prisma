@@ -96,19 +96,12 @@ model Pin {
   description String
 }
 
-enum AmPm {
-  AM
-  PM
-}
-
 model Announcement {
-  id              Int    @id @default(autoincrement())
-  name            String
-  timeStart       Int
-  timeStartPeriod AmPm
-  timeEnd         Int
-  timeEndPeriod   AmPm
-  date            Int
-  location        String
-  description     String
+  id          Int      @id @default(autoincrement())
+  name        String
+  timeStart   DateTime
+  timeEnd     DateTime
+  date        DateTime
+  location    String
+  description String
 }
