@@ -18,7 +18,7 @@ test('user can access public pages and their profile page', async ({ getUserPage
   await expect(userPage.getByRole('heading', { name: 'Sorting Guide' })).toBeVisible({ timeout: 5000 });
 
   await userPage.goto(`${BASE_URL}/user`);
-  await expect(userPage.getByText('Test')).toBeVisible({ timeout: 5000 });
+  await expect(userPage.getByRole('heading', { name: 'Your Profile' })).toBeVisible({ timeout: 5000 });
 });
 
 test('user nav shows My Profile and Sign Out but not admin links', async ({ getUserPage }) => {
