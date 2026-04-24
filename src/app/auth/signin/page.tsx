@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { signIn } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 
-/** The sign in page. */
 const SignIn = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,7 +17,7 @@ const SignIn = () => {
     const password = target.password.value;
 
     await signIn('credentials', {
-      callbackUrl: '/user',
+      callbackUrl: '/auth/redirect',
       email,
       password,
     });
@@ -31,24 +30,27 @@ const SignIn = () => {
           <Col xs={12} md={8} lg={5}>
             <h1 className="text-center">Sign In</h1>
             <Card>
-              <Card.Body>
-                <Form method="post" onSubmit={handleSubmit}>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <input name="email" type="text" className="form-control" />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <input name="password" type="password" className="form-control" />
-                  </Form.Group>
+              <div className="card-body">
+                <form method="post" onSubmit={handleSubmit}>
+                  <div className="mb-3">
+                    <label htmlFor="email" className="form-label">Email</label>
+                    <input id="email" name="email" type="text" className="form-control" />
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">Password</label>
+                    <input id="password" name="password" type="password" className="form-control" />
+                  </div>
+
                   <Button type="submit" className="mt-2">
                     Sign In
                   </Button>
-                </Form>
-              </Card.Body>
-              <Card.Footer>
+                </form>
+              </div>
+
+              <div className="card-footer">
                 Don&apos;t have an account? <Link href="/auth/signup">Sign up</Link>
-              </Card.Footer>
+              </div>
             </Card>
           </Col>
         </Row>

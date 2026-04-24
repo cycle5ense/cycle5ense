@@ -353,3 +353,83 @@ export async function getOverallRecyclingStats() {
     currentYearEntries: currentYearResult._count.id ?? 0,
   };
 }
+export async function getAllUsersWithRecyclingTotals() {
+  const users = await prisma.user.findMany({
+    orderBy: {
+      email: 'asc',
+    },
+    include: {
+      recyclingEntries: true,
+    },
+  });
+
+  return users.map((user) => ({
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    role: user.role,
+    recycledTotal: user.recyclingEntries.reduce((sum, entry) => sum + entry.amount, 0),
+  }));
+}
+
+export async function adminResetUserPassword(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email || session.user.role !== 'ADMIN') {
+    redirect('/not-authorized');
+  }
+
+  const userIdValue = formData.get('userId');
+  const newPasswordValue = formData.get('newPassword');
+
+  const userId = Number(userIdValue);
+  const newPassword = typeof newPasswordValue === 'string' ? newPasswordValue.trim() : '';
+
+  if (!Number.isFinite(userId) || !newPassword || newPassword.length < 6) {
+    return;
+  }
+
+  const password = await hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { password },
+  });
+
+  revalidatePath('/admin');
+}
+
+export async function adminDeleteUser(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email || session.user.role !== 'ADMIN') {
+    redirect('/not-authorized');
+  }
+
+  const userIdValue = formData.get('userId');
+  const userId = Number(userIdValue);
+
+  if (!Number.isFinite(userId)) {
+    return;
+  }
+
+  const currentAdmin = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (currentAdmin?.id === userId) {
+    return;
+  }
+
+  await prisma.recyclingEntry.deleteMany({
+    where: { userId },
+  });
+
+  await prisma.user.delete({
+    where: { id: userId },
+  });
+
+  revalidatePath('/admin');
+  revalidatePath('/recycle-statistics');
+}

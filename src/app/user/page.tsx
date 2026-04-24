@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { auth } from '@/lib/auth';
-import { loggedInProtectedPage } from '@/lib/page-protection';
+import { userProtectedPage } from '@/lib/page-protection';
 import {
   addRecyclingEntry,
   getCurrentUser,
@@ -11,7 +11,7 @@ import {
 
 const UserPage = async () => {
   const session = await auth();
-  loggedInProtectedPage(session);
+  userProtectedPage(session);
 
   const user = await getCurrentUser();
   const entries = await getCurrentUserRecyclingEntries();
