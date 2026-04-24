@@ -9,11 +9,12 @@ async function main() {
   for (const account of config.defaultAccounts) {
     const role = account.role as Role || Role.USER;
     const password = await hash(account.password, 10);
+    const firstName = (account as { firstName?: string }).firstName ?? '';
     console.log(`  Creating user: ${account.email} with role: ${role}`);
     await prisma.user.upsert({
       where: { email: account.email },
-      update: { password, role },
-      create: { email: account.email, password, role },
+      update: { password, role, firstName },
+      create: { email: account.email, password, role, firstName },
     });
   }
 }
