@@ -49,7 +49,6 @@ export default async function RootLayout({
     ? [
       { label: 'Admin', href: '/admin' },
       { label: 'Add Announcement', href: '/add-announcement' },
-      
     ]
     : role === 'USER'
       ? [{ label: 'My Profile', href: '/user' }]

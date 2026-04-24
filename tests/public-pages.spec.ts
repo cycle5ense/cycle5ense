@@ -6,7 +6,7 @@ test.slow();
 
 test('public pages are accessible without login', async ({ page }) => {
   await page.goto(`${BASE_URL}/`);
-  await expect(page.getByRole('heading', { name: 'Cycle5ense' })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('heading', { name: 'Cycle5ense', exact: true })).toBeVisible({ timeout: 10000 });
 
   await page.goto(`${BASE_URL}/announcements`);
   await expect(page.getByRole('heading', { name: 'Bottles4College' })).toBeVisible({ timeout: 5000 });
@@ -25,11 +25,11 @@ test('public nav shows sign in and sign up but not authenticated-only links', as
   await page.goto(`${BASE_URL}/`);
   await page.waitForLoadState('networkidle');
 
-  await expect(page.getByRole('link', { name: 'Sign In' })).toBeVisible({ timeout: 5000 });
-  await expect(page.getByRole('link', { name: 'Sign Up' })).toBeVisible({ timeout: 5000 });
-  await expect(page.getByRole('link', { name: 'Sign Out' })).not.toBeVisible();
-  await expect(page.getByRole('link', { name: 'Admin' })).not.toBeVisible();
-  await expect(page.getByRole('link', { name: 'My Profile' })).not.toBeVisible();
+  await expect(page.locator('[role="menuitem"][aria-label="Sign In"]')).toBeVisible({ timeout: 5000 });
+  await expect(page.locator('[role="menuitem"][aria-label="Sign Up"]')).toBeVisible({ timeout: 5000 });
+  await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).not.toBeVisible();
+  await expect(page.locator('[role="menuitem"][aria-label="Admin"]')).not.toBeVisible();
+  await expect(page.locator('[role="menuitem"][aria-label="My Profile"]')).not.toBeVisible();
 });
 
 test('admin page redirects unauthenticated user to sign in', async ({ page }) => {

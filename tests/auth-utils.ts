@@ -41,12 +41,9 @@ async function authenticateWithUI(
       await page.goto(BASE_URL);
       await page.waitForLoadState('networkidle');
 
-      // Check if we're authenticated by looking for a sign-out option or user email
+      // Check if we're authenticated by looking for the Sign Out nav item (role="menuitem")
       const isAuthenticated = await Promise.race([
-        page.getByText(email).isVisible().then((visible) => visible),
-        page.getByRole('button', { name: email }).isVisible().then((visible) => visible),
-        page.getByText('Sign out').isVisible().then((visible) => visible),
-        page.getByRole('button', { name: 'Sign out' }).isVisible().then((visible) => visible),
+        page.locator('[role="menuitem"][aria-label="Sign Out"]').isVisible().then((visible) => visible),
         new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
       ]);
 
@@ -85,13 +82,8 @@ async function authenticateWithUI(
     }
 
 
-    // Wait for a clear post-login indicator (user button or sign out button)
-    const userButton = page.getByRole('button', { name: email });
-    const signOutButton = page.getByRole('button', { name: /sign out/i });
-    await Promise.any([
-      expect(userButton).toBeVisible({ timeout: 10000 }),
-      expect(signOutButton).toBeVisible({ timeout: 10000 })
-    ]);
+    // Wait for a clear post-login indicator (Sign Out nav item has role="menuitem")
+    await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).toBeVisible({ timeout: 10000 });
 
     // Save session for future tests
     const cookies = await page.context().cookies();

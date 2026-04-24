@@ -217,16 +217,6 @@ const PillNav: React.FC<PillNavProps> = ({
     onMobileMenuClick?.();
   };
 
-  const isExternalLink = (href: string) =>
-    href.startsWith('http://') ||
-    href.startsWith('https://') ||
-    href.startsWith('//') ||
-    href.startsWith('mailto:') ||
-    href.startsWith('tel:') ||
-    href.startsWith('#');
-
-  const isRouterLink = (href?: string) => href && !isExternalLink(href);
-
   const cssVars = {
     ['--base']: baseColor,
     ['--pill-bg']: pillColor,
