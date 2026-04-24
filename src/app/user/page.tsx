@@ -6,6 +6,7 @@ import {
   getCurrentUser,
   getCurrentUserRecyclingEntries,
   getCurrentUserRecyclingTotal,
+  updateCurrentUserPassword,
   updateCurrentUserProfile,
 } from '@/lib/dbActions';
 
@@ -65,7 +66,7 @@ const UserPage = async () => {
 
         <Row className="g-4 mb-4">
           <Col md={6}>
-            <Card className="shadow-sm">
+            <Card className="shadow-sm h-100">
               <div className="card-body">
                 <h4 className="fw-bold mb-3">Update Your Name</h4>
                 <form action={updateCurrentUserProfile}>
@@ -103,6 +104,49 @@ const UserPage = async () => {
             </Card>
           </Col>
 
+          <Col md={6}>
+            <Card className="shadow-sm h-100">
+              <div className="card-body">
+                <h4 className="fw-bold mb-3">Change Password</h4>
+                <form action={updateCurrentUserPassword}>
+                  <div className="mb-3">
+                    <label htmlFor="password" className="form-label">
+                      New Password
+                    </label>
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      minLength={6}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label htmlFor="confirmPassword" className="form-label">
+                      Confirm New Password
+                    </label>
+                    <input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type="password"
+                      minLength={6}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+
+                  <Button type="submit" variant="warning">
+                    Change Password
+                  </Button>
+                </form>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+
+        <Row className="g-4 mb-4">
           <Col md={6}>
             <Card className="shadow-sm">
               <div className="card-body">

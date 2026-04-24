@@ -9,7 +9,6 @@ import { auth } from './auth';
 
 /**
  * Creates a new user in the database.
- * @param credentials, an object with the following properties: firstName, lastName, email, password.
  */
 export async function createUser(credentials: {
   firstName: string;
@@ -30,7 +29,6 @@ export async function createUser(credentials: {
 
 /**
  * Changes the password of an existing user in the database.
- * @param credentials, an object with the following properties: email, password.
  */
 export async function changePassword(credentials: { email: string; password: string }) {
   const password = await hash(credentials.password, 10);
@@ -67,6 +65,46 @@ export async function updateCurrentUserProfile(formData: FormData) {
     data: {
       firstName,
       lastName,
+    },
+  });
+
+  revalidatePath('/user');
+}
+
+/**
+ * Updates the current user's password.
+ */
+export async function updateCurrentUserPassword(formData: FormData) {
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect('/auth/signin');
+  }
+
+  const passwordValue = formData.get('password');
+  const confirmPasswordValue = formData.get('confirmPassword');
+
+  const password = typeof passwordValue === 'string' ? passwordValue.trim() : '';
+  const confirmPassword = typeof confirmPasswordValue === 'string' ? confirmPasswordValue.trim() : '';
+
+  if (!password || !confirmPassword) {
+    return;
+  }
+
+  if (password.length < 6) {
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    return;
+  }
+
+  const hashedPassword = await hash(password, 10);
+
+  await prisma.user.update({
+    where: { email: session.user.email },
+    data: {
+      password: hashedPassword,
     },
   });
 
@@ -353,6 +391,7 @@ export async function getOverallRecyclingStats() {
     currentYearEntries: currentYearResult._count.id ?? 0,
   };
 }
+
 export async function getAllUsersWithRecyclingTotals() {
   const users = await prisma.user.findMany({
     orderBy: {
