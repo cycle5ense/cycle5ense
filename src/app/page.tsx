@@ -209,28 +209,6 @@ const Home = () => (
         </Row>
       </Container>
     </Container>
-
-    <Container fluid className="py-5 bg-dark text-white">
-      <Container>
-        <Row className="align-items-center">
-          <Col lg={8}>
-            <h2 className="fw-bold text-white mb-3">Admin Access</h2>
-            <p className="mb-0">
-              Are you an administrator looking to manage the website&apos;s content? Click the button to
-              sign in and update announcements, recycling information, or statistics.
-            </p>
-          </Col>
-
-          <Col lg={4} className="text-lg-end mt-4 mt-lg-0">
-            <Link href="/admin/signin" className='text-decoration-none'>
-              <Button variant="success" size="lg">
-              Admin Sign In
-              </Button>
-            </Link>
-          </Col>
-        </Row>
-      </Container>
-    </Container>
   </main>
 );
 
