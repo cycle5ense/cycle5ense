@@ -73,27 +73,27 @@ const Footer = () => (
           <hr />
           <div className="d-flex flex-column gap-2">
           <div>
-            <Link href="/" className="text-white text-decoration-none">
+            <Link href="/">
               Home
             </Link>
           </div>
           <div>
-            <Link href="/announcements" className="text-white text-decoration-none">
+            <Link href="/announcements">
               Bottles4College Announcements
             </Link>
           </div>
           <div>
-            <Link href="/map" className="text-white text-decoration-none">
+            <Link href="/map">
               Manoa Bin Map
             </Link>
           </div>
           <div>
-            <Link href="/sorting-guide" className="text-white text-decoration-none">
+            <Link href="/sorting-guide">
               Sorting Guide
             </Link>
           </div>
           <div>
-            <Link href="/recycle-statistics" className="text-white text-decoration-none">
+            <Link href="/recycle-statistics">
               Recycling Statistics
             </Link>
           </div>
@@ -102,13 +102,13 @@ const Footer = () => (
         <Col lg={4}>
           <strong>About Us</strong>
           <hr />
-            <p className="mb-4">
+            <p className="mb-4" style={{ color: 'var(--color-link)' }}>
               Cycle5ense helps the UH Mānoa community recycle smarter by making campus
               recycling information easier to access.
             </p>
-            <div className="mb-3">
+            <div className="mb-3" style={{ color: 'var(--color-link)' }}>
             <div className="fw-semibold">University of Hawaiʻi at Mānoa</div>
-            <div className="fw-semibold" >Honolulu, HI 96822</div>
+            <div className="fw-semibold">Honolulu, HI 96822</div>
             </div>
         </Col>
       </Row>
