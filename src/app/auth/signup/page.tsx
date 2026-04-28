@@ -65,6 +65,9 @@ const SignUp = () => {
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
+                  <p className="text-muted mb-3">
+                    <span className="text-danger">*</span> Indicates a required field
+                  </p>
                   <Form.Group className="form-group mb-3">
                     <Form.Label>First Name</Form.Label>
                     <input
@@ -86,7 +89,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Email<span className="text-danger">*</span></Form.Label>
                     <input
                       type="text"
                       {...register('email')}
@@ -96,7 +99,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Password<span className="text-danger">*</span></Form.Label>
                     <input
                       type="password"
                       {...register('password')}
@@ -106,7 +109,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Label>Confirm Password<span className="text-danger">*</span></Form.Label>
                     <input
                       type="password"
                       {...register('confirmPassword')}
