@@ -5,10 +5,6 @@ export default function SortingGuidePage() {
   return (
     <Container className="py-5">
       <h1 className="fw-bold mb-3">Sorting Guide</h1>
-      <p className="mb-4">
-        This page is a mockup showing how CycleSense can help users identify common recyclable
-        materials and sort them properly on the UH Mānoa campus.
-      </p>
 
       <div style={{ height: '500px', position: 'relative', marginBottom: '2rem' }}>
         <CircularGallery 
