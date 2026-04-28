@@ -118,7 +118,7 @@ const SignUp = () => {
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
-                        <Button type="submit" className="btn btn-primary">
+                        <Button type="submit" className="register-btn">
                           Register
                         </Button>
                       </Col>
@@ -131,12 +131,34 @@ const SignUp = () => {
                   </Form.Group>
                 </Form>
               </Card.Body>
-              <Card.Footer>
-                Already have an account? <Link href="/auth/signin">Sign in</Link>
+              <Card.Footer
+                className="text-white"
+                style={{ backgroundColor: '#2d4a2d' }}
+              >
+                Already have an account? <Link href="/auth/signin" className="signin-link">Sign in</Link>
               </Card.Footer>
             </Card>
           </Col>
         </Row>
+        <style>
+          {`
+            .register-btn {
+              background-color: #7aad6e;
+              border: none;
+              transition: background-color 0.2s ease;
+            }
+            .register-btn:hover {
+              background-color: #4a7c4a;
+            }
+            .signin-link {
+              color: #c8e6a0;
+              text-decoration: none;
+            }
+            .signin-link:hover {
+              color: #5b9bd5;
+            }
+          `}
+        </style>
       </Container>
     </main>
   );

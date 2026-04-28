@@ -42,22 +42,43 @@ const SignIn = () => {
                     <input id="password" name="password" type="password" className="form-control" />
                   </div>
 
-                  <Button type="submit" className="mt-2">
+                  <Button type="submit" className="mt-2 signin-btn">
                     Sign In
                   </Button>
                 </form>
               </div>
 
-              <div className="card-footer">
-                Don&apos;t have an account? <Link href="/auth/signup">Sign up</Link>
+              <div
+                className="card-footer text-white"
+                style={{ backgroundColor: '#2d4a2d' }}
+              >
+                Don&apos;t have an account? <Link href="/auth/signup" className="signup-link">Sign up</Link>
               </div>
             </Card>
           </Col>
         </Row>
+        <style>
+          {`
+            .signup-link {
+              color: #c8e6a0;
+              text-decoration: none;
+            }
+            .signup-link:hover {
+              color: #5b9bd5;
+            }
+            .signin-btn {
+              background-color: #7aad6e;
+              border: none;
+              transition: background-color 0.2s ease;
+            }
+            .signin-btn:hover {
+              background-color: #4a7c4a;
+            }
+          `}
+        </style>
       </Container>
     </main>
   );
 };
 
 export default SignIn;
-
