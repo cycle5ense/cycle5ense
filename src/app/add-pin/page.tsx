@@ -81,7 +81,20 @@ const AddPinPage = () => {
           />
         </Form.Group>
 
-        <Button type="submit">Save Pin</Button>
+        <Button
+          type="submit"
+          style={{ backgroundColor: '#4a7c4a', borderColor: '#4a7c4a' }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = '#7aad6e';
+            e.currentTarget.style.borderColor = '#7aad6e';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = '#4a7c4a';
+            e.currentTarget.style.borderColor = '#4a7c4a';
+          }}
+        >
+          Save Pin
+        </Button>
       </Form>
     </Container>
   );

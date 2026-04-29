@@ -120,7 +120,18 @@ const AddAnnouncementForm: React.FC = () => {
                 <Form.Group className="form-group">
                   <Row className="pt-3">
                     <Col>
-                      <Button type="submit" variant="primary">
+                      <Button
+                        type="submit"
+                        style={{ backgroundColor: '#4a7c4a', borderColor: '#4a7c4a' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#7aad6e';
+                          e.currentTarget.style.borderColor = '#7aad6e';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#4a7c4a';
+                          e.currentTarget.style.borderColor = '#4a7c4a';
+                        }}
+                      >
                         Submit
                       </Button>
                     </Col>

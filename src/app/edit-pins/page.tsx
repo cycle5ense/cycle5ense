@@ -8,6 +8,20 @@ const EditPinsPage = async () => {
 
   return (
     <Container className="py-5">
+      <style>
+        {`
+          .custom-green-btn {
+            background-color: #4a7c4a;
+            border-color: #4a7c4a;
+            color: white;
+          }
+
+          .custom-green-btn:hover {
+            background-color: #7aad6e;
+            border-color: #7aad6e;
+          }
+        `}
+      </style>
       <h1 className="fw-bold mb-3">Edit Pins</h1>
       <p className="mb-4">
         Update existing recycling pins or remove them from the map.
@@ -81,7 +95,7 @@ const EditPinsPage = async () => {
 
           <Button
             type="submit"
-            className="me-2"
+            className="me-2 custom-green-btn"
             formAction={async (formData: FormData) => {
               'use server';
 
