@@ -60,7 +60,7 @@ const SignUp = () => {
     <main>
       <Container className="py-5">
         <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={5}>
+          <Col xs={12} md={10} lg={7}>
             <h1 className="text-center">Sign Up</h1>
             <Card>
               <Card.Body>
@@ -68,26 +68,31 @@ const SignUp = () => {
                   <p className="text-muted mb-3">
                     <span className="text-danger">*</span> Indicates a required field
                   </p>
-                  <Form.Group className="form-group mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('firstName')}
-                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.firstName?.message}</div>
-                  </Form.Group>
-
-                  <Form.Group className="form-group mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('lastName')}
-                      className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
-                  </Form.Group>
-
+                  <Row>
+                    <Col>
+                      <Form.Group className="form-group mb-3">
+                        <Form.Label>First Name</Form.Label>
+                        <input
+                          type="text"
+                          {...register('firstName')}
+                          className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                        />
+                        <div className="invalid-feedback">{errors.firstName?.message}</div>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group className="form-group mb-3">
+                        <Form.Label>Last Name</Form.Label>
+                        <input
+                          type="text"
+                          {...register('lastName')}
+                          className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                        />
+                        <div className="invalid-feedback">{errors.lastName?.message}</div>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+       
                   <Form.Group className="form-group mb-3">
                     <Form.Label>Email<span className="text-danger">*</span></Form.Label>
                     <input

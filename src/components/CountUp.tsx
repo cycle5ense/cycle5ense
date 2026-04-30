@@ -103,7 +103,7 @@ export default function CountUp({
   }, [isInView, startWhen, motionValue, direction, from, to, delay, onStart, onEnd, duration]);
 
   useEffect(() => {
-    const unsubscribe = springValue.on('change', latest => {
+    const unsubscribe = springValue.on('change', (latest: number) => {
       if (ref.current) {
         ref.current.textContent = formatValue(latest);
       }
