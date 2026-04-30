@@ -1,6 +1,7 @@
 import { Container } from 'react-bootstrap';
 import { getPins } from '@/lib/dbActions';
 import MapClient from '@/components/MapClient';
+import BinLocationTable from '@/components/BinLocationTable';
 import { auth } from '@/lib/auth';
 
 const MapPage = async () => {
@@ -17,6 +18,7 @@ const MapPage = async () => {
       </p>
 
       <MapClient pins={pins} isAdmin={isAdmin} />
+      <BinLocationTable pins={pins} />
     </Container>
   );
 };
