@@ -1,7 +1,6 @@
 "use client";
 import Image from 'next/image';
-import { Col, Container, Row, Card, Button } from 'react-bootstrap';
-import Link from 'next/link';
+import { Col, Container, Row, Card } from 'react-bootstrap';
 
 /** The Home page. */
 const Home = () => (
