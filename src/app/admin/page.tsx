@@ -1,11 +1,8 @@
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { auth } from '@/lib/auth';
 import { adminProtectedPage } from '@/lib/page-protection';
-import {
-  adminDeleteUser,
-  adminResetUserPassword,
-  getAllUsersWithRecyclingTotals,
-} from '@/lib/dbActions';
+import { getAllUsersWithRecyclingTotals } from '@/lib/dbActions';
+import AdminUserTable from '@/components/AdminUserTable';
 
 const AdminPage = async () => {
   const session = await auth();
@@ -69,76 +66,7 @@ const AdminPage = async () => {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
-            <Card className="shadow-sm">
-              <div className="card-body">
-                <h4 className="fw-bold mb-3">All Users</h4>
-
-                <Table striped bordered hover responsive>
-                  <thead>
-                    <tr>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Recycled Items</th>
-                      <th>Reset Password</th>
-                      <th>Delete Profile</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.firstName || 'Not set'}</td>
-                        <td>{user.lastName || 'Not set'}</td>
-                        <td>{user.email}</td>
-                        <td>{user.role}</td>
-                        <td>{user.recycledTotal.toLocaleString()}</td>
-
-                        <td>
-                          <form action={adminResetUserPassword} className="d-flex gap-2">
-                            <input type="hidden" name="userId" value={user.id} />
-                            <input
-                              name="newPassword"
-                              type="text"
-                              minLength={6}
-                              placeholder="New password"
-                              className="form-control form-control-sm"
-                              required
-                            />
-                            <Button type="submit" size="sm" variant="warning">
-                              Reset
-                            </Button>
-                          </form>
-                        </td>
-
-                        <td>
-                          <form action={adminDeleteUser}>
-                            <input type="hidden" name="userId" value={user.id} />
-                            <Button
-                              type="submit"
-                              size="sm"
-                              variant="danger"
-                              disabled={session?.user?.email === user.email}
-                            >
-                              Delete
-                            </Button>
-                          </form>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-
-                <p className="text-muted mb-0">
-                  Admin accounts cannot delete themselves from this page.
-                </p>
-              </div>
-            </Card>
-          </Col>
-        </Row>
+        <AdminUserTable users={users} currentAdminEmail={session?.user?.email ?? ''} />
       </Container>
     </main>
   );
