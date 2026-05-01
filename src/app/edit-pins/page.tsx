@@ -1,4 +1,4 @@
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Col, Row } from 'react-bootstrap';
 import { getPins, removePin, updatePin } from '@/lib/dbActions';
 
 export const dynamic = 'force-dynamic';
@@ -8,6 +8,20 @@ const EditPinsPage = async () => {
 
   return (
     <Container className="py-5">
+      <style>
+        {`
+          .custom-green-btn {
+            background-color: #4a7c4a;
+            border-color: #4a7c4a;
+            color: white;
+          }
+
+          .custom-green-btn:hover {
+            background-color: #7aad6e;
+            border-color: #7aad6e;
+          }
+        `}
+      </style>
       <h1 className="fw-bold mb-3">Edit Pins</h1>
       <p className="mb-4">
         Update existing recycling pins or remove them from the map.
@@ -21,35 +35,40 @@ const EditPinsPage = async () => {
         >
           <input type="hidden" name="id" value={pin.id} />
 
-          <div className="mb-3">
-            <label htmlFor={`latitude-${pin.id}`} className="form-label">
-              Latitude
-            </label>
-            <input
-              id={`latitude-${pin.id}`}
-              type="number"
-              step="any"
-              name="latitude"
-              defaultValue={pin.latitude}
-              required
-              className="form-control"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor={`longitude-${pin.id}`} className="form-label">
-              Longitude
-            </label>
-            <input
-              id={`longitude-${pin.id}`}
-              type="number"
-              step="any"
-              name="longitude"
-              defaultValue={pin.longitude}
-              required
-              className="form-control"
-            />
-          </div>
+          <Row>
+            <Col>
+              <div className="mb-3">
+                <label htmlFor={`latitude-${pin.id}`} className="form-label">
+                  Latitude
+                </label>
+                <input
+                  id={`latitude-${pin.id}`}
+                  type="number"
+                  step="any"
+                  name="latitude"
+                  defaultValue={pin.latitude}
+                  required
+                  className="form-control"
+                />
+              </div>
+            </Col>
+            <Col>
+              <div className="mb-3">
+                <label htmlFor={`longitude-${pin.id}`} className="form-label">
+                  Longitude
+                </label>
+                <input
+                  id={`longitude-${pin.id}`}
+                  type="number"
+                  step="any"
+                  name="longitude"
+                  defaultValue={pin.longitude}
+                  required
+                  className="form-control"
+                />
+              </div>
+            </Col>
+          </Row>
 
           <div className="mb-3">
             <label htmlFor={`name-${pin.id}`} className="form-label">
@@ -81,7 +100,7 @@ const EditPinsPage = async () => {
 
           <Button
             type="submit"
-            className="me-2"
+            className="me-2 custom-green-btn"
             formAction={async (formData: FormData) => {
               'use server';
 

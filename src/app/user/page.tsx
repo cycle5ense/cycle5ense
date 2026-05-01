@@ -23,6 +23,20 @@ const UserPage = async () => {
   return (
     <main className="py-5">
       <Container>
+        <style>
+          {`
+            .custom-green-btn {
+              background-color: #4a7c4a;
+              border-color: #4a7c4a;
+              color: white;
+            }
+
+            .custom-green-btn:hover {
+              background-color: #7aad6e;
+              border-color: #7aad6e;
+            }
+          `}
+        </style>
         <Row className="mb-4">
           <Col>
             <h1 className="fw-bold">
@@ -98,7 +112,7 @@ const UserPage = async () => {
                     />
                   </div>
 
-                  <Button type="submit">Save Profile</Button>
+                  <Button type="submit" className="custom-green-btn">Save Profile</Button>
                 </form>
               </div>
             </Card>
@@ -167,7 +181,7 @@ const UserPage = async () => {
                       required
                     />
                   </div>
-                  <Button type="submit">Add Recycling Entry</Button>
+                  <Button type="submit" className="custom-green-btn">Add Recycling Entry</Button>
                 </form>
               </div>
             </Card>

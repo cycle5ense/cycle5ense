@@ -46,6 +46,8 @@ const PillNav: React.FC<PillNavProps> = ({
 }) => {
   const resolvedPillTextColor = pillTextColor ?? baseColor;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const measureRef = useRef<HTMLDivElement | null>(null);
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const tlRefs = useRef<Array<gsap.core.Timeline | null>>([]);
   const activeTweenRefs = useRef<Array<gsap.core.Tween | null>>([]);
@@ -57,6 +59,12 @@ const PillNav: React.FC<PillNavProps> = ({
   const logoRef = useRef<HTMLAnchorElement | HTMLElement | null>(null);
 
   useEffect(() => {
+    const checkCollapse = () => {
+      const measure = measureRef.current;
+      if (!measure) return;
+      setIsCollapsed(measure.scrollWidth > window.innerWidth);
+    };
+
     const layout = () => {
       circleRefs.current.forEach(circle => {
         if (!circle?.parentElement) return;
@@ -107,12 +115,13 @@ const PillNav: React.FC<PillNavProps> = ({
     };
 
     layout();
+    checkCollapse();
 
-    const onResize = () => layout();
+    const onResize = () => { layout(); checkCollapse(); };
     window.addEventListener('resize', onResize);
 
     if (document.fonts?.ready) {
-      document.fonts.ready.then(layout).catch(() => {});
+      document.fonts.ready.then(() => { layout(); checkCollapse(); }).catch(() => {});
     }
 
     const menu = mobileMenuRef.current;
@@ -271,7 +280,34 @@ const PillNav: React.FC<PillNavProps> = ({
   };
 
   return (
-    <div className="pill-nav-container">
+    <>
+    {/* Hidden measurement probe — always renders full desktop nav off-screen so we can measure its natural width */}
+    <div
+      ref={measureRef}
+      className="pill-nav"
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        top: '-9999px',
+        left: '-9999px',
+        visibility: 'hidden',
+        pointerEvents: 'none',
+        zIndex: -1,
+        ...cssVars,
+      }}
+    >
+      <div className="pill-logo" />
+      <div className="pill-nav-items">
+        <ul className="pill-list">
+          {items.map((item) => (
+            <li key={`m-${item.href}`} style={{ display: 'flex', height: '100%' }}>
+              <span className="pill">{item.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+    <div className={`pill-nav-container${isCollapsed ? ' is-collapsed' : ''}`}>
       {/* Navbar replaces <nav> */}
       <Navbar className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
 
@@ -326,6 +362,7 @@ const PillNav: React.FC<PillNavProps> = ({
         </Nav>
       </div>
     </div>
+    </>
   );
 };
 

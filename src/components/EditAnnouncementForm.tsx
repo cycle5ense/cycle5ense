@@ -1,16 +1,15 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import swal from 'sweetalert';
-import { redirect } from 'next/navigation';
-import { addAnnouncement } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddAnnouncementSchema } from '@/lib/validationSchemas';
+import { editAnnouncement } from '@/lib/dbActions';
+import { EditAnnouncementSchema } from '@/lib/validationSchemas';
+import { Announcement } from '@prisma/client';
 
 type AnnouncementFormData = {
+  id: number;
   name: string;
   timeStart: string;
   timeEnd: string;
@@ -19,35 +18,33 @@ type AnnouncementFormData = {
   description: string;
 };
 
+const toDateString = (date: Date) => new Date(date).toISOString().split('T')[0];
+const toTimeString = (date: Date) => new Date(date).toISOString().split('T')[1].slice(0, 5);
+
 const onSubmit = async (data: AnnouncementFormData) => {
-  await addAnnouncement(data);
-  swal('Success', 'Your announcement has been added', 'success', {
+  await editAnnouncement(data);
+  swal('Success', 'Your announcement has been updated', 'success', {
     timer: 2000,
   });
 };
 
-const AddAnnouncementForm: React.FC = () => {
-  const { status } = useSession();
+const EditAnnouncementForm = ({ announcement }: { announcement: Announcement }) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<AnnouncementFormData>({
-    resolver: yupResolver(AddAnnouncementSchema),
+    resolver: yupResolver(EditAnnouncementSchema),
   });
-
-  if (status === 'loading') {
-    return <LoadingSpinner />;
-  }
-  if (status === 'unauthenticated') {
-    redirect('/auth/signin');
-  }
 
   return (
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
+          <Col className="text-center">
+            <h2>Edit Announcement</h2>
+          </Col>
           <Card>
             <Card.Body>
               <Form onSubmit={handleSubmit(onSubmit)}>
@@ -57,6 +54,7 @@ const AddAnnouncementForm: React.FC = () => {
                       <Form.Label>Name</Form.Label>
                       <input
                         type="text"
+                        defaultValue={announcement.name}
                         {...register('name')}
                         className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                       />
@@ -68,6 +66,7 @@ const AddAnnouncementForm: React.FC = () => {
                       <Form.Label>Date</Form.Label>
                       <input
                         type="date"
+                        defaultValue={toDateString(announcement.date)}
                         {...register('date')}
                         className={`form-control ${errors.date ? 'is-invalid' : ''}`}
                       />
@@ -81,6 +80,7 @@ const AddAnnouncementForm: React.FC = () => {
                       <Form.Label>Start Time</Form.Label>
                       <input
                         type="time"
+                        defaultValue={toTimeString(announcement.timeStart)}
                         {...register('timeStart')}
                         className={`form-control ${errors.timeStart ? 'is-invalid' : ''}`}
                       />
@@ -92,6 +92,7 @@ const AddAnnouncementForm: React.FC = () => {
                       <Form.Label>End Time</Form.Label>
                       <input
                         type="time"
+                        defaultValue={toTimeString(announcement.timeEnd)}
                         {...register('timeEnd')}
                         className={`form-control ${errors.timeEnd ? 'is-invalid' : ''}`}
                       />
@@ -103,6 +104,7 @@ const AddAnnouncementForm: React.FC = () => {
                   <Form.Label>Location</Form.Label>
                   <input
                     type="text"
+                    defaultValue={announcement.location}
                     {...register('location')}
                     className={`form-control ${errors.location ? 'is-invalid' : ''}`}
                   />
@@ -112,26 +114,17 @@ const AddAnnouncementForm: React.FC = () => {
                   <Form.Label>Description</Form.Label>
                   <input
                     type="text"
+                    defaultValue={announcement.description}
                     {...register('description')}
                     className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.description?.message}</div>
                 </Form.Group>
+                <input type="hidden" {...register('id')} value={announcement.id} />
                 <Form.Group className="form-group">
                   <Row className="pt-3">
                     <Col>
-                      <Button
-                        type="submit"
-                        style={{ backgroundColor: '#4a7c4a', borderColor: '#4a7c4a' }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#7aad6e';
-                          e.currentTarget.style.borderColor = '#7aad6e';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = '#4a7c4a';
-                          e.currentTarget.style.borderColor = '#4a7c4a';
-                        }}
-                      >
+                      <Button type="submit" variant="primary">
                         Submit
                       </Button>
                     </Col>
@@ -151,4 +144,4 @@ const AddAnnouncementForm: React.FC = () => {
   );
 };
 
-export default AddAnnouncementForm;
+export default EditAnnouncementForm;

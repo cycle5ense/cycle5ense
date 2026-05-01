@@ -21,7 +21,7 @@ test('admin can access all pages', async ({ getUserPage }) => {
   await expect(adminPage.getByRole('heading', { name: 'Edit Pins' })).toBeVisible({ timeout: 5000 });
 
   await adminPage.goto(`${BASE_URL}/admin`);
-  await expect(adminPage.getByRole('heading', { name: 'List Users Admin' })).toBeVisible({ timeout: 5000 });
+  await expect(adminPage.getByRole('heading', { name: 'Admin User Management' })).toBeVisible({ timeout: 5000 });
 });
 
 test('admin nav shows admin-specific links but not user or guest links', async ({ getUserPage }) => {

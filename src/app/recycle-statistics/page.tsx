@@ -1,5 +1,6 @@
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { getOverallRecyclingStats } from '@/lib/dbActions';
+import CountUp from '@/components/CountUp';
 
 const RecycleStatisticsPage = async () => {
   const stats = await getOverallRecyclingStats();
@@ -17,8 +18,40 @@ const RecycleStatisticsPage = async () => {
           </Col>
         </Row>
 
+        <Row className="mb-5">
+          <Col>
+            <Card className="shadow-sm text-center text-white position-relative" style={{ backgroundColor: '#4a7c4a' }}>
+              <div className="card-body">
+                <h4 className="fw-bold mb-3 text-white">Total Items Recycled</h4>
+                <CountUp
+                  from={0}
+                  to={stats.totalItems}
+                  separator=","
+                  direction="up"
+                  duration={1}
+                  className="display-2 fw-bold"
+                  delay={0}
+                />
+                <a
+                  href=""
+                  className="recycle-btn"
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: '15px',
+                    fontSize: '1.5rem',
+                    textDecoration: 'none'
+                  }}
+                >
+                  ♻️
+                </a>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+
         <Row className="g-4 mb-5">
-          <Col md={4}>
+          <Col md={6}>
             <Card className="h-100 shadow-sm">
               <div className="card-body">
                 <h5 className="fw-bold">Total Registered Users</h5>
@@ -27,20 +60,11 @@ const RecycleStatisticsPage = async () => {
             </Card>
           </Col>
 
-          <Col md={4}>
+          <Col md={6}>
             <Card className="h-100 shadow-sm">
               <div className="card-body">
                 <h5 className="fw-bold">Total Recycling Entries</h5>
                 <p className="fs-4 mb-0">{stats.totalEntries.toLocaleString()}</p>
-              </div>
-            </Card>
-          </Col>
-
-          <Col md={4}>
-            <Card className="h-100 shadow-sm">
-              <div className="card-body">
-                <h5 className="fw-bold">Total Items Recycled</h5>
-                <p className="fs-4 mb-0">{stats.totalItems.toLocaleString()}</p>
               </div>
             </Card>
           </Col>
@@ -104,7 +128,7 @@ const RecycleStatisticsPage = async () => {
               </div>
             </Card>
           </Col>
-        </Row>
+        </Row> 
 
         <Row>
           <Col>
@@ -120,6 +144,15 @@ const RecycleStatisticsPage = async () => {
             </Card>
           </Col>
         </Row>
+        <style>
+          {`
+            .recycle-btn:hover {
+              text-shadow: 0 0 8px white;
+              transform: scale(1.2);
+              transition: all 0.2s ease;
+            }
+          `}
+        </style>
       </Container>
     </main>
   );

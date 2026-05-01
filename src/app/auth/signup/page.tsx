@@ -60,33 +60,41 @@ const SignUp = () => {
     <main>
       <Container className="py-5">
         <Row className="justify-content-center">
-          <Col xs={12} md={8} lg={5}>
+          <Col xs={12} md={10} lg={7}>
             <h1 className="text-center">Sign Up</h1>
             <Card>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
+                  <p className="text-muted mb-3">
+                    <span className="text-danger">*</span> Indicates a required field
+                  </p>
+                  <Row>
+                    <Col>
+                      <Form.Group className="form-group mb-3">
+                        <Form.Label>First Name</Form.Label>
+                        <input
+                          type="text"
+                          {...register('firstName')}
+                          className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                        />
+                        <div className="invalid-feedback">{errors.firstName?.message}</div>
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group className="form-group mb-3">
+                        <Form.Label>Last Name</Form.Label>
+                        <input
+                          type="text"
+                          {...register('lastName')}
+                          className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                        />
+                        <div className="invalid-feedback">{errors.lastName?.message}</div>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+       
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('firstName')}
-                      className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.firstName?.message}</div>
-                  </Form.Group>
-
-                  <Form.Group className="form-group mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <input
-                      type="text"
-                      {...register('lastName')}
-                      className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                    />
-                    <div className="invalid-feedback">{errors.lastName?.message}</div>
-                  </Form.Group>
-
-                  <Form.Group className="form-group mb-3">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label>Email<span className="text-danger">*</span></Form.Label>
                     <input
                       type="text"
                       {...register('email')}
@@ -96,7 +104,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>Password<span className="text-danger">*</span></Form.Label>
                     <input
                       type="password"
                       {...register('password')}
@@ -106,7 +114,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group className="form-group mb-3">
-                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Label>Confirm Password<span className="text-danger">*</span></Form.Label>
                     <input
                       type="password"
                       {...register('confirmPassword')}
@@ -118,7 +126,7 @@ const SignUp = () => {
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
-                        <Button type="submit" className="btn btn-primary">
+                        <Button type="submit" className="register-btn">
                           Register
                         </Button>
                       </Col>
@@ -131,12 +139,34 @@ const SignUp = () => {
                   </Form.Group>
                 </Form>
               </Card.Body>
-              <Card.Footer>
-                Already have an account? <Link href="/auth/signin">Sign in</Link>
+              <Card.Footer
+                className="text-white"
+                style={{ backgroundColor: '#2d4a2d' }}
+              >
+                Already have an account? <Link href="/auth/signin" className="signin-link">Sign in</Link>
               </Card.Footer>
             </Card>
           </Col>
         </Row>
+        <style>
+          {`
+            .register-btn {
+              background-color: #7aad6e;
+              border: none;
+              transition: background-color 0.2s ease;
+            }
+            .register-btn:hover {
+              background-color: #4a7c4a;
+            }
+            .signin-link {
+              color: #c8e6a0;
+              text-decoration: none;
+            }
+            .signin-link:hover {
+              color: #5b9bd5;
+            }
+          `}
+        </style>
       </Container>
     </main>
   );
