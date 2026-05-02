@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Seeding the database');
   for (const account of config.defaultAccounts) {
-    const role = account.role as Role || Role.USER;
+    const role = (account as { role?: Role }).role || Role.USER;
     const password = await hash(account.password, 10);
     const firstName = (account as { firstName?: string }).firstName ?? '';
     console.log(`  Creating user: ${account.email} with role: ${role}`);
