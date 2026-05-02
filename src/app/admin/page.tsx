@@ -1,7 +1,6 @@
 import { Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { auth } from '@/lib/auth';
 import { adminProtectedPage } from '@/lib/page-protection';
-import { getAllUsersWithRecyclingTotals } from '@/lib/dbActions';
 import AdminUserTable from '@/components/AdminUserTable';
 import {
   adminDeleteUser,
