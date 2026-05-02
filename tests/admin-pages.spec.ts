@@ -5,7 +5,7 @@ const BASE_URL = process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000'
 test.slow();
 
 test('admin can access all pages', async ({ getUserPage }) => {
-  const adminPage = await getUserPage('admin@admin.com', 'adm!n');
+  const adminPage = await getUserPage('admin@foo.com', 'changeme');
 
   await adminPage.goto(`${BASE_URL}/`);
   await expect(adminPage.locator('.pill-nav-items a[href="/auth/signout"]')).toBeAttached({ timeout: 10000 });
@@ -25,7 +25,7 @@ test('admin can access all pages', async ({ getUserPage }) => {
 });
 
 test('admin nav shows admin-specific links but not user or guest links', async ({ getUserPage }) => {
-  const adminPage = await getUserPage('admin@admin.com', 'adm!n');
+  const adminPage = await getUserPage('admin@foo.com', 'changeme');
 
   await adminPage.goto(`${BASE_URL}/`);
   await adminPage.waitForLoadState('networkidle');
@@ -38,7 +38,7 @@ test('admin nav shows admin-specific links but not user or guest links', async (
 });
 
 test('admin can add, edit, and delete a pin', async ({ getUserPage }) => {
-  const adminPage = await getUserPage('admin@admin.com', 'adm!n');
+  const adminPage = await getUserPage('admin@foo.com', 'changeme');
   const uniqueName = `Playwright Test Pin ${Date.now()}`;
 
   // Add a pin via the add-pin form
@@ -71,6 +71,8 @@ test('admin can add, edit, and delete a pin', async ({ getUserPage }) => {
   const editedName = `${uniqueName} (edited)`;
   await pinForm.getByLabel('Building Name').fill(editedName);
   await pinForm.getByRole('button', { name: 'Save' }).click();
+  await adminPage.getByRole('dialog').waitFor({ state: 'visible' });
+  await adminPage.getByRole('dialog').getByRole('button', { name: 'Save' }).click();
 
   // Wait for page to update after server action, then verify the edit persisted
   await adminPage.waitForLoadState('networkidle');
@@ -82,6 +84,8 @@ test('admin can add, edit, and delete a pin', async ({ getUserPage }) => {
 
   // Delete the pin
   await editedPinForm.getByRole('button', { name: 'Remove Pin' }).click();
+  await adminPage.getByRole('dialog').waitFor({ state: 'visible' });
+  await adminPage.getByRole('dialog').getByRole('button', { name: 'Remove' }).click();
 
   // Wait for page to update and verify the pin is gone
   await adminPage.waitForLoadState('networkidle');

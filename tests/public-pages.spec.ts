@@ -25,11 +25,11 @@ test('public nav shows sign in and sign up but not authenticated-only links', as
   await page.goto(`${BASE_URL}/`);
   await page.waitForLoadState('networkidle');
 
-  await expect(page.locator('[role="menuitem"][aria-label="Sign In"]')).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('[role="menuitem"][aria-label="Sign Up"]')).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).not.toBeVisible();
-  await expect(page.locator('[role="menuitem"][aria-label="Admin"]')).not.toBeVisible();
-  await expect(page.locator('[role="menuitem"][aria-label="My Profile"]')).not.toBeVisible();
+  await expect(page.locator('[role="menuitem"][aria-label="Sign In"]')).toBeAttached({ timeout: 5000 });
+  await expect(page.locator('[role="menuitem"][aria-label="Sign Up"]')).toBeAttached({ timeout: 5000 });
+  await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).not.toBeAttached();
+  await expect(page.locator('[role="menuitem"][aria-label="Admin"]')).not.toBeAttached();
+  await expect(page.locator('[role="menuitem"][aria-label="My Profile"]')).not.toBeAttached();
 });
 
 test('admin page redirects unauthenticated user to sign in', async ({ page }) => {

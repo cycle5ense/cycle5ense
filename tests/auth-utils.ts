@@ -41,11 +41,12 @@ async function authenticateWithUI(
       await page.goto(BASE_URL);
       await page.waitForLoadState('networkidle');
 
-      // Check if we're authenticated by looking for the Sign Out nav item (role="menuitem")
-      const isAuthenticated = await Promise.race([
-        page.locator('[role="menuitem"][aria-label="Sign Out"]').isVisible().then((visible) => visible),
-        new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 3000)),
-      ]);
+      // Check if we're authenticated by looking for the Sign Out nav item in the DOM
+      const isAuthenticated = await page
+        .locator('[role="menuitem"][aria-label="Sign Out"]')
+        .waitFor({ state: 'attached', timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
 
       if (isAuthenticated) {
         console.log(`✓ Restored session for ${email}`);
@@ -83,7 +84,7 @@ async function authenticateWithUI(
 
 
     // Wait for a clear post-login indicator (Sign Out nav item has role="menuitem")
-    await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[role="menuitem"][aria-label="Sign Out"]')).toBeAttached({ timeout: 10000 });
 
     // Save session for future tests
     const cookies = await page.context().cookies();

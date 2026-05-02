@@ -1,4 +1,5 @@
 import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import ConfirmButton from '@/components/ConfirmButton';
 import { auth } from '@/lib/auth';
 import { userProtectedPage } from '@/lib/page-protection';
 import {
@@ -151,9 +152,14 @@ const UserPage = async () => {
                     />
                   </div>
 
-                  <Button type="submit" variant="warning">
+                  <ConfirmButton
+                    variant="warning"
+                    confirmTitle="Change Password"
+                    confirmMessage="Are you sure you want to change your password?"
+                    confirmLabel="Change Password"
+                  >
                     Change Password
-                  </Button>
+                  </ConfirmButton>
                 </form>
               </div>
             </Card>

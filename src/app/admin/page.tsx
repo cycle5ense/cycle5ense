@@ -1,4 +1,4 @@
-import { Button, Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Card, Col, Container, Row, Table } from 'react-bootstrap';
 import { auth } from '@/lib/auth';
 import { adminProtectedPage } from '@/lib/page-protection';
 import {
@@ -6,6 +6,7 @@ import {
   adminResetUserPassword,
   getAllUsersWithRecyclingTotals,
 } from '@/lib/dbActions';
+import ConfirmButton from '@/components/ConfirmButton';
 
 const AdminPage = async () => {
   const session = await auth();
@@ -108,23 +109,31 @@ const AdminPage = async () => {
                               className="form-control form-control-sm"
                               required
                             />
-                            <Button type="submit" size="sm" variant="warning">
+                            <ConfirmButton
+                              size="sm"
+                              variant="warning"
+                              confirmTitle="Reset Password"
+                              confirmMessage={`Reset the password for ${user.email}?`}
+                              confirmLabel="Reset"
+                            >
                               Reset
-                            </Button>
+                            </ConfirmButton>
                           </form>
                         </td>
 
                         <td>
                           <form action={adminDeleteUser}>
                             <input type="hidden" name="userId" value={user.id} />
-                            <Button
-                              type="submit"
+                            <ConfirmButton
                               size="sm"
                               variant="danger"
                               disabled={session?.user?.email === user.email}
+                              confirmTitle="Delete User"
+                              confirmMessage={`Delete ${user.email}? This will also remove their recycling data.`}
+                              confirmLabel="Delete"
                             >
                               Delete
-                            </Button>
+                            </ConfirmButton>
                           </form>
                         </td>
                       </tr>

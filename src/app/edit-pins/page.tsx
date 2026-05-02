@@ -1,5 +1,6 @@
-import { Button, Container, Form, Col, Row } from 'react-bootstrap';
+import { Container, Form, Col, Row } from 'react-bootstrap';
 import { getPins, removePin, updatePin } from '@/lib/dbActions';
+import ConfirmButton from '@/components/ConfirmButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -98,9 +99,11 @@ const EditPinsPage = async () => {
             />
           </div>
 
-          <Button
-            type="submit"
+          <ConfirmButton
             className="me-2 custom-green-btn"
+            confirmTitle="Save Pin"
+            confirmMessage={`Save changes to "${pin.name}"?`}
+            confirmLabel="Save"
             formAction={async (formData: FormData) => {
               'use server';
 
@@ -120,11 +123,13 @@ const EditPinsPage = async () => {
             }}
           >
             Save
-          </Button>
+          </ConfirmButton>
 
-          <Button
-            type="submit"
+          <ConfirmButton
             variant="danger"
+            confirmTitle="Remove Pin"
+            confirmMessage={`Remove "${pin.name}" from the map?`}
+            confirmLabel="Remove"
             formAction={async (formData: FormData) => {
               'use server';
 
@@ -133,7 +138,7 @@ const EditPinsPage = async () => {
             }}
           >
             Remove Pin
-          </Button>
+          </ConfirmButton>
         </Form>
       ))}
     </Container>
