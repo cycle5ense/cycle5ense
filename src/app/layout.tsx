@@ -1,3 +1,4 @@
+import { auth } from '@/lib/auth';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -6,7 +7,6 @@ import Footer from '@/components/Footer';
 import PillNav from '@/components/PillNav';
 import Providers from './providers';
 import 'leaflet/dist/leaflet.css';
-import { auth } from '@/lib/auth';
 
 const logo = '/img/logo.png';
 
@@ -36,10 +36,14 @@ export default async function RootLayout({
   const session = await auth();
   const role = session?.user?.role;
   const isLoggedIn = !!session?.user;
+  const isAdmin = role === 'ADMIN';
 
   const defaultItems = [
     { label: 'Home', href: '/' },
-    { label: 'Bottles4College Announcements', href: '/announcements' },
+    {
+      label: 'Bottles4College Announcements',
+      href: isAdmin ? '/admin-announcements' : '/announcements',
+    },
     { label: 'Manoa Bin Map', href: '/map' },
     { label: 'Sorting Guide', href: '/sorting-guide' },
     { label: 'Recycling Statistics', href: '/recycle-statistics' },
