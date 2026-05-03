@@ -1,5 +1,6 @@
 {
   "defaultAccounts": [
-    { "email": "john@foo.com", "password": "changeme", "firstName": "Test", "lastName": "1" }
+    { "email": "john@foo.com", "password": "changeme", "firstName": "Test", "lastName": "1" },
+    { "email": "admin@foo.com", "password": "changeme", "firstName": "Admin", "role": "ADMIN" }
   ]
 }
