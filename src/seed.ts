@@ -1,8 +1,16 @@
+import 'dotenv/config';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient, Role } from '@prisma/client';
 import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json';
 
-const prisma = new PrismaClient();
+const connectionString = process.env.POSTGRES_URL;
+if (!connectionString) {
+  throw new Error('POSTGRES_URL is not defined in the environment.');
+}
+
+const adapter = new PrismaPg({ connectionString });
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Seeding the database');

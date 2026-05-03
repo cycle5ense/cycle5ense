@@ -458,7 +458,6 @@ class App {
       alpha: true,
       antialias: true,
       dpr: Math.min(window.devicePixelRatio || 1, 2),
-      webgl: 2,
     });
     this.gl = this.renderer.gl as WebGL2RenderingContext & { renderer: Renderer; canvas: HTMLCanvasElement };
     this.gl.clearColor(0, 0, 0, 0);

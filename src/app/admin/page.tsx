@@ -1,13 +1,8 @@
-import { Card, Col, Container, Row, Table } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { auth } from '@/lib/auth';
 import { adminProtectedPage } from '@/lib/page-protection';
 import AdminUserTable from '@/components/AdminUserTable';
-import {
-  adminDeleteUser,
-  adminResetUserPassword,
-  getAllUsersWithRecyclingTotals,
-} from '@/lib/dbActions';
-import ConfirmButton from '@/components/ConfirmButton';
+import { getAllUsersWithRecyclingTotals } from '@/lib/dbActions';
 
 const AdminPage = async () => {
   const session = await auth();
@@ -72,84 +67,6 @@ const AdminPage = async () => {
         </Row>
 
         <AdminUserTable users={users} currentAdminEmail={session?.user?.email ?? ''} />
-        <Row>
-          <Col>
-            <Card className="shadow-sm">
-              <div className="card-body">
-                <h4 className="fw-bold mb-3">All Users</h4>
-
-                <Table striped bordered hover responsive>
-                  <thead>
-                    <tr>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                      <th>Recycled Items</th>
-                      <th>Reset Password</th>
-                      <th>Delete Profile</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {users.map((user) => (
-                      <tr key={user.id}>
-                        <td>{user.firstName || 'Not set'}</td>
-                        <td>{user.lastName || 'Not set'}</td>
-                        <td>{user.email}</td>
-                        <td>{user.role}</td>
-                        <td>{user.recycledTotal.toLocaleString()}</td>
-
-                        <td>
-                          <form action={adminResetUserPassword} className="d-flex gap-2">
-                            <input type="hidden" name="userId" value={user.id} />
-                            <input
-                              name="newPassword"
-                              type="text"
-                              minLength={6}
-                              placeholder="New password"
-                              className="form-control form-control-sm"
-                              required
-                            />
-                            <ConfirmButton
-                              size="sm"
-                              variant="warning"
-                              confirmTitle="Reset Password"
-                              confirmMessage={`Reset the password for ${user.email}?`}
-                              confirmLabel="Reset"
-                            >
-                              Reset
-                            </ConfirmButton>
-                          </form>
-                        </td>
-
-                        <td>
-                          <form action={adminDeleteUser}>
-                            <input type="hidden" name="userId" value={user.id} />
-                            <ConfirmButton
-                              size="sm"
-                              variant="danger"
-                              disabled={session?.user?.email === user.email}
-                              confirmTitle="Delete User"
-                              confirmMessage={`Delete ${user.email}? This will also remove their recycling data.`}
-                              confirmLabel="Delete"
-                            >
-                              Delete
-                            </ConfirmButton>
-                          </form>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-
-                <p className="text-muted mb-0">
-                  Admin accounts cannot delete themselves from this page.
-                </p>
-              </div>
-            </Card>
-          </Col>
-        </Row>
       </Container>
     </main>
   );

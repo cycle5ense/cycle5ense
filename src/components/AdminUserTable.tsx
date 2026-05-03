@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import { Button, Card, Col, Row, Table } from 'react-bootstrap';
 import { adminDeleteUser, adminResetUserPassword } from '@/lib/dbActions';
+import ConfirmButton from '@/components/ConfirmButton';
 
 type AdminUser = {
   id: number;
@@ -148,23 +149,31 @@ const AdminUserTable = ({ users, currentAdminEmail }: AdminUserTableProps) => {
                               className="form-control form-control-sm"
                               required
                             />
-                            <Button type="submit" size="sm" variant="warning">
+                            <ConfirmButton
+                              size="sm"
+                              variant="warning"
+                              confirmTitle="Reset Password"
+                              confirmMessage={`Reset the password for ${user.email}?`}
+                              confirmLabel="Reset"
+                            >
                               Reset
-                            </Button>
+                            </ConfirmButton>
                           </form>
                         </td>
 
                         <td>
                           <form action={adminDeleteUser}>
                             <input type="hidden" name="userId" value={user.id} />
-                            <Button
-                              type="submit"
+                            <ConfirmButton
                               size="sm"
                               variant="danger"
                               disabled={currentAdminEmail === user.email}
+                              confirmTitle="Delete User"
+                              confirmMessage={`Delete ${user.email}? This will also remove their recycling data.`}
+                              confirmLabel="Delete"
                             >
                               Delete
-                            </Button>
+                            </ConfirmButton>
                           </form>
                         </td>
                       </tr>
