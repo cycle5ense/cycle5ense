@@ -204,7 +204,7 @@ export async function addAnnouncement(data: {
       description: data.description,
     },
   });
-  redirect('/list');
+  redirect('/admin-announcements');
 }
 
 /**
@@ -232,7 +232,7 @@ export async function editAnnouncement(data: {
       description: data.description,
     },
   });
-  redirect('/list');
+  redirect('/admin-announcements');
 }
 
 export async function getAnnouncements() {
