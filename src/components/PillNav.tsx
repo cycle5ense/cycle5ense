@@ -55,6 +55,7 @@ const PillNav: React.FC<PillNavProps> = ({
   const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const layoutFnRef = useRef<() => void>(() => {});
   const navItemsRef = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<HTMLAnchorElement | HTMLElement | null>(null);
 
@@ -72,6 +73,11 @@ const PillNav: React.FC<PillNavProps> = ({
         const pill = circle.parentElement as HTMLElement;
         const rect = pill.getBoundingClientRect();
         const { width: w, height: h } = rect;
+
+        // Skip pills that are hidden (e.g. desktop pills during collapsed mode).
+        // getBoundingClientRect returns zero dimensions for display:none elements,
+        // which would produce incorrect timeline animations.
+        if (h === 0) return;
         const R = ((w * w) / 4 + h * h) / (2 * h);
         const D = Math.ceil(2 * R) + 2;
         const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
@@ -114,6 +120,8 @@ const PillNav: React.FC<PillNavProps> = ({
       });
     };
 
+    layoutFnRef.current = layout;
+
     layout();
     checkCollapse();
 
@@ -146,6 +154,14 @@ const PillNav: React.FC<PillNavProps> = ({
 
     return () => window.removeEventListener('resize', onResize);
   }, [items, ease, initialLoadAnimation]);
+
+  // Re-run layout after the DOM reflects the expanded state so pills have real
+  // dimensions again (getBoundingClientRect returns 0 while display:none).
+  useEffect(() => {
+    if (!isCollapsed) {
+      layoutFnRef.current();
+    }
+  }, [isCollapsed]);
 
   const handleEnter = (i: number) => {
     const tl = tlRefs.current[i];
@@ -182,6 +198,34 @@ const PillNav: React.FC<PillNavProps> = ({
     });
   };
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+
+    const hamburger = hamburgerRef.current;
+    const menu = mobileMenuRef.current;
+
+    if (hamburger) {
+      const lines = hamburger.querySelectorAll('.hamburger-line');
+      gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: true });
+      gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: true });
+    }
+
+    if (menu) {
+      gsap.to(menu, {
+        opacity: 0,
+        y: 10,
+        scaleY: 1,
+        duration: 0.2,
+        ease,
+        overwrite: true,
+        transformOrigin: 'top center',
+        onComplete: () => {
+          gsap.set(menu, { visibility: 'hidden' });
+        }
+      });
+    }
+  };
+
   const toggleMobileMenu = () => {
     const newState = !isMobileMenuOpen;
     setIsMobileMenuOpen(newState);
@@ -192,11 +236,11 @@ const PillNav: React.FC<PillNavProps> = ({
     if (hamburger) {
       const lines = hamburger.querySelectorAll('.hamburger-line');
       if (newState) {
-        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
+        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease, overwrite: true });
+        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease, overwrite: true });
       } else {
-        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
+        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: true });
+        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease, overwrite: true });
       }
     }
 
@@ -206,7 +250,7 @@ const PillNav: React.FC<PillNavProps> = ({
         gsap.fromTo(
           menu,
           { opacity: 0, y: 10, scaleY: 1 },
-          { opacity: 1, y: 0, scaleY: 1, duration: 0.3, ease, transformOrigin: 'top center' }
+          { opacity: 1, y: 0, scaleY: 1, duration: 0.3, ease, overwrite: true, transformOrigin: 'top center' }
         );
       } else {
         gsap.to(menu, {
@@ -215,6 +259,7 @@ const PillNav: React.FC<PillNavProps> = ({
           scaleY: 1,
           duration: 0.2,
           ease,
+          overwrite: true,
           transformOrigin: 'top center',
           onComplete: () => {
             gsap.set(menu, { visibility: 'hidden' });
@@ -272,7 +317,7 @@ const PillNav: React.FC<PillNavProps> = ({
         as={Link}
         href={item.href}
         className={sharedClass}
-        onClick={() => setIsMobileMenuOpen(false)}
+        onClick={closeMobileMenu}
       >
         {item.label}
       </Nav.Link>
