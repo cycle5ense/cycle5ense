@@ -11,6 +11,19 @@ import {
   updateCurrentUserProfile,
 } from '@/lib/dbActions';
 
+// Was originally using toLocaleString directly in the table, though it was showing in the server's timezone (UTC) instead of HST. 
+// This helper function ensures it always shows in Hawaii time regardless of where the server is hosted.
+const formatHawaiiDateTime = (date: Date) => (
+  new Date(date).toLocaleString('en-US', {
+    timeZone: 'Pacific/Honolulu',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  })
+);
+
 const UserPage = async () => {
   const session = await auth();
   userProtectedPage(session);
@@ -207,7 +220,7 @@ const UserPage = async () => {
                       <tr>
                         <th>Entry</th>
                         <th>Items Recycled</th>
-                        <th>Date</th>
+                        <th>Date/Time (HST)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -215,7 +228,7 @@ const UserPage = async () => {
                         <tr key={entry.id}>
                           <td>{entries.length - index}</td>
                           <td>{entry.amount.toLocaleString()}</td>
-                          <td>{new Date(entry.createdAt).toLocaleString()}</td>
+                          <td>{formatHawaiiDateTime(entry.createdAt).toLocaleString()}</td>
                         </tr>
                       ))}
                     </tbody>
