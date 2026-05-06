@@ -294,6 +294,7 @@ const PillNav: React.FC<PillNavProps> = ({
           aria-hidden="true"
           ref={el => { circleRefs.current[i] = el; }}
         />
+      { /* The label is rendered twice so GSAP can animate the normal label out while the hover label animates in. The hover label is hidden from screen readers to avoid duplicate announcements */ }
         <span className="label-stack">
           <span className="pill-label">{item.label}</span>
           <span className="pill-label-hover" aria-hidden="true">{item.label}</span>
@@ -326,7 +327,8 @@ const PillNav: React.FC<PillNavProps> = ({
 
   return (
     <>
-    {/* Hidden measurement probe — always renders full desktop nav off-screen so we can measure its natural width */}
+    {/* Hidden measurement probe — always renders full desktop nav off-screen so we can measure its natural width.
+        It is visually hidden and aria-hidden so users do not interact with or hear duplicate nav items. */}
     <div
       ref={measureRef}
       className="pill-nav"
