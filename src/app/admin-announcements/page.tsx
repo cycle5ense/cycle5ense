@@ -62,6 +62,11 @@ const AdminAnnouncementsPage = async ({ searchParams }: { searchParams: { page?:
               Stay up to date with the latest from Bottles4College.
             </p>
           </Col>
+          <Col md={4} className="text-end">
+            <Link href="/add-announcement" className="btn btn-success">
+              + Add Announcement
+            </Link>
+          </Col>
         </Row>
 
         {paginated.length === 0 ? (
