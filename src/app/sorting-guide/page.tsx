@@ -6,6 +6,48 @@ export default function SortingGuidePage() {
     <Container className="py-5">
       <h1 className="fw-bold mb-3">Sorting Guide</h1>
 
+      <Row className="align-items-center g-4 mb-5">
+        <Col md={3}>
+          <Card
+            className="h-100 shadow-sm"
+            style={{ backgroundColor: '#e6f4ff', border: '3px solid #007fff' }}
+          >
+            <div className="card-body text-center">
+              <h5 className="fw-bold text-center mb-3">RECYCLABLES GO HERE</h5>
+              <p className="mb-0 text-start">
+                The recycling bins are self explanatory and easy to use. Place clean bottles,
+                cans, paper, and other accepted recyclable items into the opening labeled
+                recyclables.
+              </p>
+            </div>
+          </Card>
+        </Col>
+
+        <Col md={6} className="text-center">
+          <img
+            src="/img/bin-sort.jpg"
+            alt="Campus recycling bin with separate openings for recyclables and waste"
+            className="img-fluid rounded shadow-sm"
+          />
+        </Col>
+
+        <Col md={3}>
+          <Card
+            className="h-100 shadow-sm"
+            style={{ backgroundColor: '#d9d9d9', border: '3px solid #000000' }}
+          >
+            <div className="card-body text-center">
+              <h5 className="fw-bold text-center mb-3">WASTE GOES HERE</h5>
+              <p className="mb-0 text-start">
+                Waste, also known as non recyclable material, should be placed in the side
+                labeled waste. This includes food-soiled items, wrappers, and materials that
+                cannot be recycled.
+              </p>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+
       <div style={{ height: '500px', position: 'relative', marginBottom: '2rem' }}>
         <CircularGallery 
           items={[
@@ -25,6 +67,7 @@ export default function SortingGuidePage() {
         />
       </div>
 
+      <h2 className="fw-bold mb-4 text-start">What to Recycle:</h2>
       <Row className="g-4">
         <Col md={6}>
           <Card className="h-100 shadow-sm">
@@ -53,9 +96,9 @@ export default function SortingGuidePage() {
         <Col md={6}>
           <Card className="h-100 shadow-sm">
             <div className="card-body">
-              <h5 className="fw-bold">Aluminum</h5>
+              <h5 className="fw-bold">Aluminium</h5>
               <p className="mb-0">
-                Aluminum cans are highly recyclable and should be placed in the appropriate
+                Aluminium cans are highly recyclable and should be placed in the appropriate
                 recycling bins around campus whenever possible.
               </p>
             </div>
