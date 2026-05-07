@@ -61,18 +61,29 @@ const Home = () => (
                   e.currentTarget.style.color = 'white';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = 'white'));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = 'white';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'white';
                   e.currentTarget.style.color = 'black';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = ''));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = '#198754';
+                  }
                 }}
               >
                 <div className="card-body">
                   <h4 className="fw-bold">Bottles4College Announcements</h4>
-                  <p className="mb-0">
+                  <p className="mb-3">
                     Stay updated with recycling-related news, events, and campus updates.
+                  </p>
+                  <p className="fw-bold text-decoration-underline mb-0" style={{ color: '#198754' }}>
+                    Click here to learn more →
                   </p>
                 </div>
               </Card>
@@ -88,18 +99,29 @@ const Home = () => (
                   e.currentTarget.style.color = 'white';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = 'white'));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = 'white';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'white';
                   e.currentTarget.style.color = 'black';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = ''));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = '#198754';
+                  }
                 }}
               >
                 <div className="card-body">
                   <h4 className="fw-bold">Manoa Bin Map</h4>
-                  <p className="mb-0">
+                  <p className="mb-3">
                     Find recycling bin locations around campus more easily.
+                  </p>
+                  <p className="fw-bold text-decoration-underline mb-0" style={{ color: '#198754' }}>
+                    Click here to learn more →
                   </p>
                 </div>
               </Card>
@@ -115,18 +137,29 @@ const Home = () => (
                   e.currentTarget.style.color = 'white';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = 'white'));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = 'white';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'white';
                   e.currentTarget.style.color = 'black';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = ''));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = '#198754';
+                  }
                 }}
               >
                 <div className="card-body">
                   <h4 className="fw-bold">Sorting Guide</h4>
-                  <p className="mb-0">
+                  <p className="mb-3">
                     Learn more about how to sort recyclable materials correctly.
+                  </p>
+                  <p className="fw-bold text-decoration-underline mb-0" style={{ color: '#198754' }}>
+                    Click here to learn more →
                   </p>
                 </div>
               </Card>
@@ -142,18 +175,29 @@ const Home = () => (
                   e.currentTarget.style.color = 'white';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = 'white'));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = 'white';
+                  }
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = 'white';
                   e.currentTarget.style.color = 'black';
                   const text = e.currentTarget.querySelectorAll('*');
                   text.forEach((el) => ((el as HTMLElement).style.color = ''));
+                  const learnMore = e.currentTarget.querySelector('.text-decoration-underline') as HTMLElement;
+                  if (learnMore) {
+                    learnMore.style.color = '#198754';
+                  }
                 }}
               >
                 <div className="card-body">
                   <h4 className="fw-bold">Recycling Impact Statistics</h4>
-                  <p className="mb-0">
+                  <p className="mb-3">
                     View recycling impact data and annual progress.
+                  </p>
+                  <p className="fw-bold text-decoration-underline mb-0" style={{ color: '#198754' }}>
+                    Click here to learn more →
                   </p>
                 </div>
               </Card>
