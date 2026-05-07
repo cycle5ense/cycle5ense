@@ -39,7 +39,7 @@ const EditAnnouncementForm = ({ announcement }: { announcement: Announcement }) 
   });
 
   return (
-    <Container className="py-3">
+    <Container className="py-5">
       <Row className="justify-content-center">
         <Col xs={10}>
           <Col className="text-center">
