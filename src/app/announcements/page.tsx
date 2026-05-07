@@ -25,9 +25,9 @@ const AnnouncementsPage = async ({ searchParams }: { searchParams: { page?: stri
     <main className="pt-4">
       {/* Hero / Org Description */}
       <div className="pt-5 pb-3">
-        <Container>
+        <Container fluid className="px-4 px-lg-5">
           <Row className="align-items-center">
-            <Col md={8}>
+            <Col xs={12}>
               <div className="d-flex align-items-center gap-3 mb-2">
                 <span>♻️</span>
                 <Image
@@ -54,7 +54,7 @@ const AnnouncementsPage = async ({ searchParams }: { searchParams: { page?: stri
         </Container>
       </div>
 
-      <Container className="pt-2 pb-4">
+      <Container fluid className="pt-2 pb-4 px-4 px-lg-5">
         <Row className="mb-3">
           <Col>
             <h2>Announcements &amp; Events</h2>
@@ -69,7 +69,7 @@ const AnnouncementsPage = async ({ searchParams }: { searchParams: { page?: stri
         ) : (
           <Row className="g-4">
             {paginated.map((announcement) => (
-              <Col md={8} lg={6} key={announcement.id}>
+              <Col xs={12} key={announcement.id}>
                 <Card className="border-0 shadow-sm overflow-hidden h-100">
                   <div style={{ height: "6px", background: "linear-gradient(90deg, #28a745, #ffc107)" }} />
                   <CardBody className="p-4 d-flex flex-column">
@@ -79,7 +79,7 @@ const AnnouncementsPage = async ({ searchParams }: { searchParams: { page?: stri
                       </Badge>
                     </div>
                     <CardTitle className="mb-3">{announcement.name}</CardTitle>
-                    <CardText>{announcement.description}</CardText>
+                    <CardText className="w-100">{announcement.description}</CardText>
                     <div
                       className="d-flex gap-4 flex-wrap pt-3 mt-auto"
                       style={{ borderTop: "1px solid var(--color-bg-alt)" }}
