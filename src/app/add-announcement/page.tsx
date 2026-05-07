@@ -13,7 +13,7 @@ const AddAnnouncement = async () => {
   );
   return (
     <main>
-      <Container className="py-4 mt-5 pt-5">
+      <Container className="py-5">
         <h1 className="fw-bold mb-3">Add Announcement</h1>
         <p className="mb-4">
           Enter information for a new Bottles4College announcement or event.

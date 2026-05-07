@@ -45,7 +45,7 @@ const AddAnnouncementForm: React.FC = () => {
   }
 
   return (
-    <Container className="py-3">
+    <Container>
       <Row className="justify-content-center">
         <Col xs={10}>
           <Card>
